@@ -8,6 +8,8 @@ ScamShield is a **self-hosted MCP server** (Streamable HTTP, **MCP spec 2025-11-
 
 Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track.
 
+**Live:** MCP endpoint `https://scamshield-alexa.onrender.com/mcp` · demo https://scamshield-alexa.onrender.com · real Alexa skill tested in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on a free Render instance, so the first request after it has been idle can take ~50 seconds.
+
 ## Why voice?
 Scams hit the people least likely to open a laptop and research a link: older adults, busy parents, non-native speakers. Asking the assistant already in the kitchen is the most natural way to get a second opinion before you tap, pay or call back.
 
@@ -47,6 +49,8 @@ Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom ski
 - *"Is this a scam? It says: your package is on hold…"*, then *"yes"* for how to report it, then *"yes"* for a warning to send your family
 - *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
 - *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
+
+It has been run end to end in the **Alexa developer console simulator** against the live Render deployment: see the [transcript and screenshot](docs/alexa-simulator-transcript.md).
 
 Every request is **verified as coming from Amazon**: the certificate URL and chain (issued for `echo-api.amazon.com`, chained to a trusted root), the RSA-SHA256 body signature, and a 150-second timestamp window. Set `ALEXA_SKILL_ID` to also pin the skill ID.
 
