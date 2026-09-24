@@ -45,6 +45,13 @@ test("briefing headlines are cleaned for speech and junk pages are skipped", asy
   assert.equal(isUsefulAlert("https://consumer.ftc.gov/consumer-alerts/archive/202609", "Consumer Alerts Archive"), false);
   assert.equal(isUsefulAlert("http://www.irs.gov/zh-hant/newsroom/x", "IRS warning"), false);
   assert.equal(isUsefulAlert("https://consumer.ftc.gov/consumer-alerts/2026/09/x", "Scammers are spoofing car dealership websites"), true);
+  // Hub and menu pages are not warnings.
+  assert.equal(isUsefulAlert("https://consumer.ftc.gov/consumer-alerts", "Consumer Alerts | Consumer Advice"), false);
+  assert.equal(isUsefulAlert("https://www.ftc.gov/news-events/stay-connected", "Stay Connected | Federal Trade Commission"), false);
+  assert.equal(isUsefulAlert("https://consumer.ftc.gov/business-impersonators?page=2", "Business Impersonators - FTC Consumer Advice"), false);
+  assert.equal(isUsefulAlert("https://consumer.ftc.gov/search-terms/military", "military | Consumer Advice"), false);
+  // A leading site name is skipped.
+  assert.equal(cleanHeadline("Internet Crime Complaint Center (IC3) | Scammers Impersonating Law Enforcement"), "Scammers Impersonating Law Enforcement");
 });
 
 test("archive pages in other languages are skipped", async () => {
