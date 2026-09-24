@@ -31,8 +31,8 @@ test("negotiates MCP 2025-11-25 and exposes the tools, prompt and resource", asy
   assert.match(client.getInstructions(), /check_message/);
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [
-    "check_link", "check_message", "check_phone_call", "check_phone_number", "how_to_report_scam", "scam_briefing",
-    "search_scam_reports", "verify_with_official_source", "warn_family",
+    "check_link", "check_message", "check_phone_call", "check_phone_number", "how_to_report_scam", "practice_quiz",
+    "scam_briefing", "search_scam_reports", "verify_with_official_source", "warn_family",
   ]);
   assert.ok(tools.every((t) => t.annotations?.readOnlyHint === true));
   const { prompts } = await client.listPrompts();
@@ -103,4 +103,15 @@ test("check_phone_call knows Microsoft never cold-calls, and asks relevant quest
   assert.match(ms.content[0].text, /never call you out of the blue/);
   const irs = await client.callTool({ name: "check_phone_call", arguments: { caller_claims_to_be: "the IRS" } });
   assert.equal(irs.structuredContent.next_question.key, "asked_for_unusual_payment");
+});
+
+test("practice_quiz asks, then explains the answer", async () => {
+  const q = await client.callTool({ name: "practice_quiz", arguments: { action: "next" } });
+  assert.match(q.content[0].text, /Is it a scam, or is it real\?$/);
+  const { id } = q.structuredContent;
+  const a = await client.callTool({ name: "practice_quiz", arguments: { action: "answer", id, guess: "scam" } });
+  assert.match(a.content[0].text, /^(Right!|Not quite\.)/);
+  assert.ok(["scam", "real"].includes(a.structuredContent.answer));
+  const bad = await client.callTool({ name: "practice_quiz", arguments: { action: "answer", id: "nope", guess: "scam" } });
+  assert.equal(bad.isError, true);
 });
