@@ -16,6 +16,13 @@ import { verifyAlexaRequest } from "./lib/alexa-verify.js";
 
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || "0.0.0.0";
+// Log errors without their message text: error messages (e.g. JSON parse errors) can quote the
+// request body, which is someone's private message. Type and code location are enough to debug.
+function logError(label, err) {
+  const where = String(err?.stack || "").split("\n").slice(1, 3).map((l) => l.trim()).join(" | ");
+  console.error(`${label}: ${err?.name || "Error"}${err?.code ? ` (${err.code})` : ""}${where ? ` at ${where}` : ""}`);
+}
+
 const RATE_LIMIT_PER_MIN = Number(process.env.RATE_LIMIT_PER_MIN || 60);
 const allowedHosts = process.env.ALLOWED_HOSTS?.split(",").map((h) => h.trim()).filter(Boolean);
 
@@ -83,7 +90,7 @@ app.post("/mcp", rateLimit, async (req, res) => {
     await server.connect(transport);
     await transport.handleRequest(req, res, req.body);
   } catch (err) {
-    console.error("MCP request failed:", err);
+    logError("MCP request failed", err);
     if (!res.headersSent) res.status(500).json({ jsonrpc: "2.0", error: { code: -32603, message: "Internal server error" }, id: null });
   }
 });
@@ -115,7 +122,7 @@ root.post("/alexa", express.raw({ type: "*/*", limit: "256kb" }), async (req, re
     }
     res.json(await handleAlexa(JSON.parse(req.body.toString("utf8"))));
   } catch (err) {
-    console.error("Alexa request failed:", err);
+    logError("Alexa request failed", err);
     res.status(500).json({ error: "Internal error" });
   }
 });

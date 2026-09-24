@@ -8,7 +8,7 @@ ScamShield is a **self-hosted MCP server** (Streamable HTTP, **MCP spec 2025-11-
 
 Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track.
 
-**Live:** MCP endpoint `https://scamshield-alexa.onrender.com/mcp` · demo https://scamshield-alexa.onrender.com · real Alexa skill tested in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on a free Render instance, so the first request after it has been idle can take ~50 seconds.
+**Live:** MCP endpoint `https://scamshield-alexa.onrender.com/mcp` · demo https://scamshield-alexa.onrender.com · real Alexa skill tested in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on a free Render instance, kept awake by a [GitHub Actions ping](.github/workflows/keepalive.yml) every 10 minutes so Alexa never hits a cold start.
 
 ## Why voice?
 Scams hit the people least likely to open a laptop and research a link: older adults, busy parents, non-native speakers. Asking the assistant already in the kitchen is the most natural way to get a second opinion before you tap, pay or call back.
@@ -140,8 +140,8 @@ eval/                  Labeled message sets + results
 test/                  node:test suites (official MCP client end-to-end)
 ```
 
-## Safety
-ScamShield never opens, fetches or clicks suspicious links; it analyzes them as text. It never asks for or stores personal data. The web tools only read official company sites and search results. ScamShield gives guidance, not legal or financial advice.
+## Safety and privacy
+ScamShield never opens, fetches or clicks suspicious links; it analyzes them as text. It stores nothing, never logs message text, and only sends company names or short queries to web search. Full details: [PRIVACY.md](PRIVACY.md). ScamShield gives guidance, not legal or financial advice.
 
 ## License
 MIT
