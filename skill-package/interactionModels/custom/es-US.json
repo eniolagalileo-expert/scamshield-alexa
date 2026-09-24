@@ -1,0 +1,131 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "escudo antiestafas",
+      "intents": [
+        {
+          "name": "CheckMessageIntent",
+          "slots": [
+            {
+              "name": "message",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "es esto una estafa {message}",
+            "es una estafa {message}",
+            "revisa este mensaje {message}",
+            "revisa este texto {message}",
+            "me llegó un mensaje que dice {message}",
+            "me llegó un texto que dice {message}",
+            "recibí un mensaje que dice {message}",
+            "recibí un correo que dice {message}",
+            "el mensaje dice {message}",
+            "el texto dice {message}",
+            "dice {message}",
+            "me escribieron {message}",
+            "revisa {message}",
+            "es real esto {message}",
+            "es verdad esto {message}"
+          ]
+        },
+        {
+          "name": "PhoneCallIntent",
+          "slots": [
+            {
+              "name": "caller",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "alguien me está llamando de {caller}",
+            "me está llamando alguien de {caller}",
+            "tengo una llamada de {caller}",
+            "estoy en una llamada con {caller}",
+            "me llaman de {caller}",
+            "me llamaron de {caller}",
+            "dicen que son de {caller}",
+            "alguien me está llamando",
+            "me está llamando alguien",
+            "tengo a alguien en el teléfono",
+            "estoy hablando por teléfono con alguien"
+          ]
+        },
+        {
+          "name": "BriefingIntent",
+          "samples": [
+            "qué estafas hay",
+            "qué estafas están circulando",
+            "noticias de estafas",
+            "alertas de estafas",
+            "qué estafas hay hoy"
+          ]
+        },
+        {
+          "name": "PracticeIntent",
+          "samples": [
+            "vamos a practicar",
+            "quiero practicar",
+            "practicar",
+            "hagamos una práctica"
+          ]
+        },
+        {
+          "name": "ReportIntent",
+          "samples": [
+            "cómo lo reporto",
+            "dónde lo reporto",
+            "quiero reportarlo",
+            "cómo denuncio esto",
+            "dónde lo denuncio"
+          ]
+        },
+        {
+          "name": "WarnFamilyIntent",
+          "slots": [
+            {
+              "name": "relative",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "avisa a {relative}",
+            "escribe un aviso para {relative}",
+            "avisa a mi familia",
+            "advierte a mi familia",
+            "escribe un aviso para mi familia"
+          ]
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}
