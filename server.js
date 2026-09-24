@@ -1,6 +1,7 @@
 // ScamShield for Alexa+: MCP server over Streamable HTTP (spec 2025-11-25) plus the demo web app.
 //   POST /mcp      MCP endpoint (stateless by default; sessions for clients that support sampling)
 //   GET  /health   status
+//   POST /alexa    Alexa custom-skill endpoint (requests are signature-verified)
 //   GET  /         "Simulated Alexa+" voice web app that uses the MCP server
 
 import { randomUUID } from "node:crypto";
@@ -10,6 +11,8 @@ import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/
 import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { createServer } from "./lib/mcp.js";
 import { searchEnabled } from "./lib/tavily.js";
+import { handleAlexa } from "./lib/alexa.js";
+import { verifyAlexaRequest } from "./lib/alexa-verify.js";
 
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || "0.0.0.0";
@@ -95,10 +98,30 @@ const sessionOnly = async (req, res) => {
 app.get("/mcp", sessionOnly);
 app.delete("/mcp", sessionOnly);
 
-app.get("/health", (req, res) => res.json({ ok: true, web_checks: searchEnabled(), mcp: "/mcp", protocol: "2025-11-25" }));
+app.get("/health", (req, res) => res.json({ ok: true, web_checks: searchEnabled(), mcp: "/mcp", alexa: "/alexa", protocol: "2025-11-25" }));
 app.use(express.static(new URL("./public", import.meta.url).pathname));
 
-app.listen(PORT, HOST, () => {
+// Alexa needs the raw body to check Amazon's signature, so its route sits in front of the MCP app's JSON parser.
+const ALEXA_VERIFY = process.env.ALEXA_VERIFY !== "false"; // only disable for local testing
+const root = express();
+root.post("/alexa", express.raw({ type: "*/*", limit: "256kb" }), async (req, res) => {
+  try {
+    if (ALEXA_VERIFY) {
+      const problem = await verifyAlexaRequest(req.headers, req.body, { skillId: process.env.ALEXA_SKILL_ID });
+      if (problem) {
+        console.warn("Rejected Alexa request:", problem);
+        return res.status(400).json({ error: "Bad request" });
+      }
+    }
+    res.json(await handleAlexa(JSON.parse(req.body.toString("utf8"))));
+  } catch (err) {
+    console.error("Alexa request failed:", err);
+    res.status(500).json({ error: "Internal error" });
+  }
+});
+root.use(app);
+
+root.listen(PORT, HOST, () => {
   console.log(`ScamShield MCP server: http://localhost:${PORT}/mcp`);
   console.log(`Simulated Alexa+ app:  http://localhost:${PORT}/`);
   if (!searchEnabled()) console.log("⚠️  TAVILY_API_KEY not set: web checks (official sources, scam reports) are off.");

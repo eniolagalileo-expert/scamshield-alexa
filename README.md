@@ -42,6 +42,14 @@ Also provided:
 - **Resource** `scamshield://guides/top-scams`: a read-aloud guide to common scams.
 - **Server instructions**: tell the assistant the recommended flow and safety rules (never suggest clicking the link).
 
+## A real Alexa skill, too
+Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom skill** endpoint (`POST /alexa`) with the interaction model in [`skill-package/`](skill-package/interactionModels/custom/en-US.json). Say *"Alexa, open Scam Shield"*, then:
+- *"Is this a scam? It says: your package is on hold…"*, then *"yes"* for how to report it, then *"yes"* for a warning to send your family
+- *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
+- *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
+
+Every request is **verified as coming from Amazon**: the certificate URL and chain (issued for `echo-api.amazon.com`, chained to a trusted root), the RSA-SHA256 body signature, and a 150-second timestamp window. Set `ALEXA_SKILL_ID` to also pin the skill ID.
+
 ## Works with real AI assistants
 [`docs/real-client-transcripts.md`](docs/real-client-transcripts.md) has unedited runs with **Claude Code as the MCP client**. Given only the user's words, the assistant chained `check_message` → `verify_with_official_source` → `check_link` for a USPS text, and used `check_phone_call` for a live "bank fraud department" call, answering: *"Hang up now. This is a scam. A real bank will never ask you to read out a code."*
 
@@ -95,6 +103,8 @@ npm run bench            # accuracy benchmark
 | `HOST` | `0.0.0.0` | Use `127.0.0.1` for local-only (enables DNS-rebinding protection) |
 | `ALLOWED_HOSTS` | none | Comma-separated host allow-list when deployed |
 | `RATE_LIMIT_PER_MIN` | `60` | Requests per minute per IP |
+| `ALEXA_SKILL_ID` | none | Only accept Alexa requests for this skill ID |
+| `ALEXA_VERIFY` | `true` | Set `false` only for local testing without Amazon signatures |
 | `TAVILY_API_KEY` | none | Enables `verify_with_official_source`, `search_scam_reports` and `scam_briefing` |
 
 ### Deploy (Render, free)
@@ -109,6 +119,11 @@ lib/i18n.js            Language detection + Spanish/Hindi/Indonesian answers
 lib/call.js            check_phone_call guided interview
 lib/briefing.js        scam_briefing from official consumer alerts
 lib/family.js          warn_family message
+lib/practice.js        practice_quiz
+lib/second-opinion.js  MCP sampling second opinion
+lib/alexa.js           Alexa custom-skill conversation handler
+lib/alexa-verify.js    Alexa request signature verification
+skill-package/         Alexa interaction model
 lib/clues.js           Link/phone analysis, clue extraction
 lib/tavily.js          Tavily search + multi-page extract
 lib/official.js        Picks the official page and the sentence that answers the question
