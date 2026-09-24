@@ -8,7 +8,9 @@
     "start": "node server.js",
     "dev": "node --env-file-if-exists=.env server.js",
     "test": "node --test --test-concurrency=1 test/*.test.js",
-    "bench": "node scripts/bench.js"
+    "bench": "node scripts/bench.js",
+    "bench:real": "node scripts/bench-real.js",
+    "eval:agent": "node scripts/eval-agent.mjs"
   },
   "engines": {
     "node": ">=20.12"

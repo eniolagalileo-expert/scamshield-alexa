@@ -24,11 +24,14 @@ Scams hit the people least likely to open a laptop and research a link: older ad
 | `check_phone_call` | **For a call in progress.** A stateless guided interview: returns the next yes/no question (the most relevant one first, e.g. codes for "my bank", remote access for "Microsoft") or a verdict. Knows who never cold-calls (Microsoft, Apple, the IRS by phone…). Usually 1–3 questions. | No |
 | `scam_briefing` | "What scams are going around?" Recent warnings from **official consumer-protection sites only** (FTC, USPIS, FBI IC3, FCC, Action Fraud, Scamwatch…), cleaned up for a spoken briefing | Yes (Tavily news) |
 | `warn_family` | Composes a short, calm warning to send to a relative. It sends nothing itself; the assistant confirms and sends | No |
+| `practice_quiz` | "Let's practice spotting scams." Reads a message aloud, takes the guess ("scam" / "real"), explains the giveaways, keeps it short for voice | No |
 
 Examples of live `verify_with_official_source` answers:
 - USPS: *"These phishing emails and smishing texts appear to be from the US Postal Service, but they are not, and individuals should not interact with them."*
 - PayPal: *"PayPal will never ask for sensitive information in an email."*
 - Amazon: *"Amazon never asks for your password or for sensitive personal information over the phone or on any external website."*
+
+**Second opinion via MCP sampling.** If the connected assistant supports [sampling](https://modelcontextprotocol.io/specification/2025-11-25/client/sampling), `check_message` asks the assistant's *own* model to double-check anything the rules didn't call a scam, with the rules' evidence attached. No API key is needed, since the client runs the model, and the second opinion can only **raise** caution, never lower it. Clients that declare `sampling` get a session (SSE) automatically; everyone else keeps the fast stateless JSON path.
 
 `check_message` also **answers in the message's language**: full Spanish, plus Hindi and Indonesian (verdict and key action).
 
@@ -54,14 +57,18 @@ Open `http://localhost:3000/`: an Echo-style assistant in the browser.
 5. An **MCP activity** panel shows every live `tools/call`, with arguments and timing.
 
 ## Accuracy (honest numbers)
-`npm run bench` runs `check_message` offline on labeled sets ([results](eval/RESULTS.md)). We follow a strict rule: once we look at a test set's mistakes to improve the rules, it becomes a development set, and we write a **new** held-out set.
+We measured three configurations on the **same** held-out messages, including **real SMS from a published research dataset**¹ ([full results](eval/SYSTEM_RESULTS.md)):
 
-| Set | Accuracy | Scams caught | False alarms |
+| Set | Rules only | Rules + second opinion (MCP sampling) | Full assistant (Claude + tools) |
 |---|---|---|---|
-| Dev sets A, B, C (100 msgs, used while designing the rules) | 100% | 66/66 | 0/34 |
-| **Held-out test v2 (37 msgs, written after all tuning, never tuned on)** | **86%** | **17/22** | **0/15** |
+| Held-out test v2 (37 msgs) | 86% · 17/22 scams · 0/15 false alarms | **97% · 22/22 · 1/15** | 95% · 22/22 · 2/15 |
+| **Real-world SMS sample (60 msgs)** | 62% · **7/30** scams · 0/30 | 92% · **29/30** · 4/30 | 93% · **29/30** · 3/30 |
 
-History: the first held-out set scored 90% (19/20 scams, 2/10 false alarms). We fixed the general causes (mentions of a password vs. requests for one, money sent *to* you, stories that mention the police), which removed false alarms, then wrote v2. On v2 the rules miss some new wordings of code-sharing and "business upgrade" scams. That's why ScamShield is a **toolbox for an AI assistant** (official-source checks, web reports, the call interview) rather than a single yes/no classifier.
+The rules alone are precise but miss scams they weren't written for (on all 5,971 real messages: 27% of smishing caught, 1.7% false alarms). With the assistant's own model taking a second look, nearly every scam is caught. That's why ScamShield is designed as a **toolbox for an AI assistant**, not a standalone classifier.
+
+We keep ourselves honest: once we learn from a test set's mistakes it becomes a development set (`dev-a/b/c`, now 100%), and new held-out sets are written or sourced separately. Reproduce with `npm run bench`, `npm run bench:real`, `npm run eval:agent -- <set>` and `node scripts/eval-sampling.mjs <set>`.
+
+¹ Mishra & Soni, *SMS Phishing Dataset for Machine Learning and Pattern Recognition*, Mendeley Data 2022, doi:10.17632/f45bkkt8pr.1, CC BY 4.0 ([source notes](eval/REAL_WORLD_SOURCE.md)).
 
 The detection engine is also published as a standalone open-source library: **[scam-signals](https://github.com/eniolagalileo-expert/scam-signals)**.
 
@@ -87,6 +94,7 @@ npm run bench            # accuracy benchmark
 | `PORT` | `3000` | |
 | `HOST` | `0.0.0.0` | Use `127.0.0.1` for local-only (enables DNS-rebinding protection) |
 | `ALLOWED_HOSTS` | none | Comma-separated host allow-list when deployed |
+| `RATE_LIMIT_PER_MIN` | `60` | Requests per minute per IP |
 | `TAVILY_API_KEY` | none | Enables `verify_with_official_source`, `search_scam_reports` and `scam_briefing` |
 
 ### Deploy (Render, free)

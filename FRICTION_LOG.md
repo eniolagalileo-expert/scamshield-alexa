@@ -32,4 +32,10 @@ Honest notes from building ScamShield with the MCP TypeScript SDK (1.30.1) and t
 - **Workaround:** A small cleanup + sentence scorer (`lib/official.js`) with unit tests built from real responses.
 - **Suggestion:** An option to strip navigation/boilerplate, or sentence-level chunks, would help voice use cases.
 
-## 7. [ADD] Anything you hit while deploying, recording, or testing with real clients
+## 7. Sampling doesn't work with a stateless, JSON-response server, and that isn't obvious
+- **What I wanted:** during `check_message`, ask the client's model for a second opinion (MCP sampling, `server.createMessage`).
+- **What happened:** our server was stateless with `enableJsonResponse: true`. A server-to-client request mid-call needs an SSE stream, and the client's reply arrives as a *new* POST, which a stateless server (a fresh instance per request) can't match to the pending request.
+- **Workaround:** run both modes on one endpoint. If the `initialize` request declares the `sampling` capability, create a session transport (SSE); otherwise keep the stateless JSON path. See `server.js`.
+- **Suggestion:** a note in the SDK docs next to `enableJsonResponse`/stateless mode that server-initiated requests (sampling, elicitation) require sessions and SSE.
+
+## 8. [ADD] Anything you hit while deploying, recording, or testing with real clients
