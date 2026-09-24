@@ -1,13 +1,15 @@
 // Offline benchmark for check_message (no API keys needed).
 //   dev-a, dev-b: sets used while designing the signals (scores are optimistic)
-//   test:         written after the signals were frozen; the honest number
+//   dev-c:        the first held-out set; its misses were later used for tuning
+//   test-v2:      written after all tuning; the honest number
 import { readFile, writeFile } from "node:fs/promises";
 import { scanMessage } from "../lib/scan.js";
 
 const SETS = [
   ["dev-a", "Development set A (used for tuning)"],
   ["dev-b", "Development set B (used for tuning)"],
-  ["test", "**Held-out test set (never tuned on)**"],
+  ["dev-c", "Development set C (was held-out v1; later used for tuning)"],
+  ["test-v2", "**Held-out test v2 (written after all tuning, never tuned on)**"],
 ];
 
 const rows = [];
