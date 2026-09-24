@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: scamshield-alexa
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      - key: TAVILY_API_KEY
+        sync: false
