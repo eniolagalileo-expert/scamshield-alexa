@@ -9,7 +9,8 @@ const intent = (name, slots = {}, attributes = {}) => ({
   session: { attributes },
   request: { type: "IntentRequest", timestamp: new Date().toISOString(), intent: { name, slots: Object.fromEntries(Object.entries(slots).map(([k, v]) => [k, { name: k, value: v }])) } },
 });
-const speech = (r) => r.response.outputSpeech.text;
+// The visible words of an SSML response (tags removed, entities decoded).
+const speech = (r) => r.response.outputSpeech.ssml.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/\s{2,}/g, " ").trim();
 
 test("launch greets and keeps the session open", async () => {
   const r = await handleAlexa({ version: "1.0", request: { type: "LaunchRequest" } });
@@ -79,4 +80,14 @@ test("caller phrases are cleaned before being spoken back", async () => {
   const r1 = await handleAlexa(intent("PhoneCallIntent", { caller: "he's from my bank" }));
   const r2 = await handleAlexa(intent("AMAZON.YesIntent", {}, r1.sessionAttributes));
   assert.match(speech(r2), /call your bank back/);
+});
+
+test("responses use SSML with emphasis, pauses and escaping", async () => {
+  const { toSSML } = await import("../lib/alexa.js");
+  const ssml = toSSML("Hang up now. This is almost certainly a scam. Forward it to 7 7 2 6. A & B <c>");
+  assert.match(ssml, /^<speak><prosody rate="95%"><emphasis level="strong">Hang up now\.<\/emphasis>/);
+  assert.match(ssml, /<break time="350ms"\/>/);
+  assert.match(ssml, /<say-as interpret-as="digits">7726<\/say-as>/);
+  assert.match(ssml, /A &amp; B &lt;c&gt;/);
+  assert.doesNotMatch(toSSML("Welcome to Scam Shield."), /prosody/);
 });

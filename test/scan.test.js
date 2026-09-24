@@ -42,3 +42,13 @@ test("answers in the message's language", () => {
   const en = scanMessage("Your Uber code is 4821. Never share this code with anyone.");
   assert.equal(en.language, "en");
 });
+
+test("links read aloud are recognized and checked", async () => {
+  const { normalizeSpokenLinks } = await import("../lib/clues.js");
+  assert.equal(normalizeSpokenLinks("pay at usps dot com dash track dash redelivery dot top slash pkg today"), "pay at usps.com-track-redelivery.top/pkg today");
+  assert.equal(normalizeSpokenLinks("go to h t t p s colon slash slash paypa1 dash secure dot com slash login"), "go to https://paypa1-secure.com/login");
+  assert.equal(normalizeSpokenLinks("I will dot the i and we can talk later"), "I will dot the i and we can talk later");
+  const r = scanMessage("USPS your package is on hold pay the one ninety nine fee within 24 hours at usps dot com dash track dash redelivery dot top slash pkg");
+  assert.equal(r.verdict, "scam");
+  assert.ok(r.red_flags.some((f) => f.flag === "Fake or disguised link"));
+});
