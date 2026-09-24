@@ -91,3 +91,68 @@ test("responses use SSML with emphasis, pauses and escaping", async () => {
   assert.match(ssml, /A &amp; B &lt;c&gt;/);
   assert.doesNotMatch(toSSML("Welcome to Scam Shield."), /prosody/);
 });
+
+const withDevice = (req, { apl = false, locale } = {}) => ({
+  ...req,
+  request: { ...req.request, requestId: "req-1", ...(locale ? { locale } : {}) },
+  context: { System: { apiEndpoint: "https://api.amazonalexa.com", apiAccessToken: "test-token", device: { supportedInterfaces: apl ? { "Alexa.Presentation.APL": { runtime: { maxVersion: "2024.3" } } } : {} } } },
+});
+
+test("screen devices get a verdict card; voice-only devices don't", async () => {
+  const msg = { message: "USPS your package is on hold pay the 1.99 redelivery fee within 24 hours at usps.com-track-redelivery.top" };
+  const show = await handleAlexa(withDevice(intent("CheckMessageIntent", msg), { apl: true }));
+  const [d] = show.response.directives;
+  assert.equal(d.type, "Alexa.Presentation.APL.RenderDocument");
+  assert.equal(d.datasources.card.title, "SCAM");
+  assert.match(d.datasources.card.items[0], /usps\.com-track-redelivery\.top/);
+  const echo = await handleAlexa(withDevice(intent("CheckMessageIntent", msg)));
+  assert.equal(echo.response.directives, undefined);
+  assert.equal(echo.card, undefined);
+});
+
+test("Spanish locale: the whole conversation is in Spanish", async () => {
+  const es = (r) => withDevice(r, { locale: "es-US" });
+  const launch = await handleAlexa(es({ version: "1.0", request: { type: "LaunchRequest" } }));
+  assert.match(speech(launch), /Escudo Antiestafas/);
+  const r1 = await handleAlexa(es(intent("CheckMessageIntent", { message: "USPS su paquete está retenido pague la tarifa en usps punto com guion entrega punto top barra pkg hoy" })));
+  assert.match(speech(r1), /^Esto parece una estafa\./);
+  assert.match(r1.response.outputSpeech.ssml, /<emphasis level="strong">Esto parece una estafa\.<\/emphasis>/);
+  const r2 = await handleAlexa(es(intent("AMAZON.YesIntent", {}, r1.sessionAttributes)));
+  assert.match(speech(r2), /reportfraud\.ftc\.gov/);
+  const c1 = await handleAlexa(es(intent("PhoneCallIntent", { caller: "dice que es de mi banco" })));
+  assert.match(speech(c1), /código/);
+  const c2 = await handleAlexa(es(intent("AMAZON.YesIntent", {}, c1.sessionAttributes)));
+  assert.match(speech(c2), /^Cuelgue ahora\./);
+});
+
+test("slow web checks send a 'one moment' progressive response first", async () => {
+  const realFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url, opts) => { calls.push({ url: String(url), opts }); return new Response("{}"); };
+  const hadKey = process.env.TAVILY_API_KEY;
+  process.env.TAVILY_API_KEY = "test";
+  try {
+    await handleAlexa(withDevice(intent("CheckMessageIntent", { message: "USPS: your package is on hold. Pay the $1.99 redelivery fee within 24 hours at usps.com-track-redelivery.top" })));
+    const pr = calls.find((c) => c.url === "https://api.amazonalexa.com/v1/directives");
+    assert.ok(pr, "progressive response sent");
+    assert.equal(JSON.parse(pr.opts.body).directive.type, "VoicePlayer.Speak");
+    assert.equal(pr.opts.headers.Authorization, "Bearer test-token");
+  } finally {
+    globalThis.fetch = realFetch;
+    if (hadKey === undefined) delete process.env.TAVILY_API_KEY; else process.env.TAVILY_API_KEY = hadKey;
+  }
+});
+
+test("progressive responses only go to Amazon's API", async () => {
+  const realFetch = globalThis.fetch;
+  const calls = [];
+  globalThis.fetch = async (url) => { calls.push(String(url)); return new Response("{}"); };
+  try {
+    const req = withDevice(intent("BriefingIntent"));
+    req.context.System.apiEndpoint = "https://evil.example.com";
+    await handleAlexa(req);
+    assert.ok(!calls.some((u) => u.includes("evil.example.com")));
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+});
