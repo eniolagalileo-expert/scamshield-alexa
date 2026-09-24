@@ -9,6 +9,7 @@ const EXAMPLES = {
   grandkid: "Grandma it's me, please don't tell mom and dad. I was in a car accident and I'm at the police station. I need $3,000 for bail right now. Please hurry, you can pay with gift cards.",
   bank: "Chase Alert: Unusual activity detected on your account. Your account has been temporarily locked. Verify your identity now to avoid suspension: http://chase-secure-verify.online/login. Reply with the one-time code we sent you.",
   real: "Your Google verification code is 482913. Don't share this code with anyone. Google will never ask you for it.",
+  spanish: "Correos: Su paquete está retenido por falta de pago de 1,79 EUR en tasas de aduana. Pague en las próximas 24 horas o será devuelto: https://correos-envios-pago.top/es",
 };
 
 const VERDICT_UI = {
@@ -59,17 +60,19 @@ function escapeHtml(s) {
   return String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
 
-function pickVoice() {
+function pickVoice(lang = "en") {
   const voices = speechSynthesis.getVoices();
-  return voices.find((v) => /Samantha|Google US English|Aria|Jenny/i.test(v.name)) || voices.find((v) => v.lang?.startsWith("en")) || null;
+  if (lang === "en") return voices.find((v) => /Samantha|Google US English|Aria|Jenny/i.test(v.name)) || voices.find((v) => v.lang?.startsWith("en")) || null;
+  return voices.find((v) => v.lang?.toLowerCase().startsWith(lang)) || null;
 }
 
-function speak(text) {
+function speak(text, lang = "en") {
   return new Promise((resolve) => {
     if (!("speechSynthesis" in window)) return resolve();
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    const voice = pickVoice();
+    u.lang = { en: "en-US", es: "es-ES", hi: "hi-IN", id: "id-ID" }[lang] || "en-US";
+    const voice = pickVoice(lang);
     if (voice) u.voice = voice;
     u.rate = 1;
     u.onend = u.onerror = resolve;
@@ -89,6 +92,21 @@ function extractMessage(utterance) {
 }
 
 const wantsReport = (u) => /\b(report|who do i tell|where do i tell)\b/i.test(u);
+const wantsBriefing = (u) => /\b(what|which|any) (new |recent )?scams?\b.*\b(going around|out there|lately|these days|right now|this week)|\bscam (news|alerts?|briefing|update)\b/i.test(u);
+const onACall = (u) => /\b(on the (phone|line)|(is |are )?calling me|(someone|somebody|a man|a woman|a guy) (is )?(call(ing|ed)|on the phone)|a (phone )?call from|caller)\b/i.test(u);
+const familyTarget = (u) => (u.match(/\b(?:warn|tell|let|message|text)\s+(?:my\s+)?(mom|mum|mother|dad|father|son|daughter|grandson|granddaughter|grandma|grandpa|wife|husband|sister|brother|family|friend)\b/i) || [])[1];
+const YES = /^(yes|yeah|yep|yup|uh huh|they are|they did|he is|she is|he did|she did|correct|right|true)\b/i;
+const NO = /^(no|nope|nah|not really|they aren'?t|they didn'?t|he isn'?t|she isn'?t|he didn'?t|she didn'?t)\b/i;
+const isCommand = (u) => wantsReport(u) || wantsBriefing(u) || onACall(u) || familyTarget(u) || YES.test(u) || NO.test(u);
+
+let callSession = null; // { caller_claims_to_be, what_they_want, answers, pendingKey }
+let lastMessage = "";
+
+// "The caller says he's from my bank and wants..." → "my bank"
+function callerClaim(u) {
+  const m = u.match(/\b(?:from|(?:says|saying) (?:he|she|they|it)(?:'s| is| are) (?:from )?|claims? to be (?:from )?|pretending to be (?:from )?)((?:my|the) [\w ]{2,25}?|[A-Z][\w&]+(?: [A-Z][\w&]+)?)(?=[,.]| and| who| asking| saying| wants|$)/);
+  return m ? m[1].trim() : "";
+}
 
 // ---------- The "Alexa+" turn ----------
 async function handleUtterance(utterance) {
@@ -99,20 +117,37 @@ async function handleUtterance(utterance) {
 
   try {
     let reply;
-    if (wantsReport(text) && text.length < 80) {
+    let lang = "en";
+    if (callSession && (YES.test(text) || NO.test(text))) {
+      reply = await continueCall(YES.test(text));
+    } else if (onACall(text)) {
+      callSession = { caller_claims_to_be: callerClaim(text), what_they_want: extractMessage(text), answers: {} };
+      reply = await continueCall(null);
+    } else if (wantsBriefing(text)) {
+      const r = await mcp.callTool("scam_briefing", { country });
+      renderBriefing(r.data.items || []);
+      reply = r.speech;
+    } else if (familyTarget(text)) {
+      const r = await mcp.callTool("warn_family", { recipient: familyTarget(text), about: lastMessage || text });
+      renderWarning(r.data);
+      reply = r.speech;
+    } else if (wantsReport(text) && text.length < 80) {
       const r = await mcp.callTool("how_to_report_scam", { country });
       renderReport(r.data.links);
       reply = r.speech;
     } else {
       const message = extractMessage(text) || text;
+      lastMessage = message;
+      callSession = null;
       const r = await mcp.callTool("check_message", { message, country });
       lastResult = r.data;
       renderDetails(r.data);
       reply = r.speech;
+      lang = r.data.language || "en";
 
       // Like an agent would: confirm with the real company's own website when one is impersonated.
       const brand = r.data.brands_mentioned?.[0];
-      if (brand && r.data.verdict !== "likely_safe") {
+      if (brand && r.data.verdict !== "likely_safe" && lang === "en") {
         try {
           const o = await mcp.callTool("verify_with_official_source", {
             company: brand,
@@ -124,22 +159,46 @@ async function handleUtterance(utterance) {
           }
         } catch (_) { /* web check is optional */ }
       }
-      if (r.data.verdict !== "likely_safe") reply += " Want to know how to report it?";
+      const REPORT_OFFER = { en: "Want to know how to report it?", es: "¿Quiere saber cómo denunciarlo?", hi: "क्या आप जानना चाहते हैं कि इसकी रिपोर्ट कैसे करें?", id: "Mau tahu cara melaporkannya?" };
+      if (r.data.verdict !== "likely_safe") reply += ` ${REPORT_OFFER[lang] || REPORT_OFFER.en}`;
     }
     say("bot", reply);
-    await speak(reply);
+    await speak(reply, lang);
   } catch (err) {
     const msg = `Sorry, I couldn't reach ScamShield. ${err.message}`;
     say("bot", msg);
     await speak(msg);
   }
-  setState("idle", "Tap the mic and ask");
-  if (lastResult && lastResult.verdict !== "likely_safe") showFollowUp();
+  setState("idle", callSession ? "Answer yes or no" : "Tap the mic and ask");
+  if (callSession) showCallAnswers();
+  else if (lastResult && lastResult.verdict !== "likely_safe") showFollowUp();
+}
+
+// One step of the guided phone-call interview.
+async function continueCall(answer) {
+  if (callSession.pendingKey && answer !== null) callSession.answers[callSession.pendingKey] = answer;
+  const { pendingKey, ...args } = callSession;
+  const r = await mcp.callTool("check_phone_call", args);
+  if (r.data.status === "need_answer") {
+    callSession.pendingKey = r.data.next_question.key;
+  } else {
+    renderCallVerdict(r.data);
+    lastResult = { verdict: r.data.verdict };
+    callSession = null;
+  }
+  return r.speech;
+}
+
+function showCallAnswers() {
+  $("#hint").innerHTML = `Say <em>"yes"</em> or <em>"no"</em>, or tap: <button type="button" class="link" id="yes-btn">Yes</button> · <button type="button" class="link" id="no-btn">No</button>`;
+  $("#yes-btn").onclick = () => handleUtterance("Yes");
+  $("#no-btn").onclick = () => handleUtterance("No");
 }
 
 function showFollowUp() {
-  $("#hint").innerHTML = `Say <em>"How do I report it?"</em>, or <button type="button" class="link" id="report-btn">tap here</button>.`;
+  $("#hint").innerHTML = `Say <em>"How do I report it?"</em> or <em>"Warn my mom"</em>, or tap: <button type="button" class="link" id="report-btn">Report it</button> · <button type="button" class="link" id="warn-btn">Warn my mom</button>`;
   $("#report-btn").onclick = () => handleUtterance("How do I report it?");
+  $("#warn-btn").onclick = () => handleUtterance("Warn my mom about this");
 }
 
 // ---------- Details panel ----------
@@ -158,6 +217,29 @@ function renderOfficial(o) {
   const quote = o.key_points?.length ? o.key_points.join(" ") : o.title;
   $("#official").innerHTML = `<h3>🏛️ From the official website</h3>
     <p class="official"><q>${escapeHtml(quote)}</q> <a href="${escapeHtml(o.official_url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(new URL(o.official_url).hostname)} ↗</a></p>`;
+}
+
+function renderCallVerdict(d) {
+  const v = VERDICT_UI[d.verdict];
+  $("#details-panel").hidden = false;
+  $("#details").innerHTML = `
+    <div class="verdict ${v.cls}">📞 ${v.label}</div>
+    ${d.flags.length ? `<ul class="flags">${d.flags.map((f) => `<li><strong>${escapeHtml(f.flag)}</strong><small>${escapeHtml(f.why)}</small></li>`).join("")}</ul>` : ""}
+    <h3>What to do</h3>
+    <ol class="todo">${d.what_to_do.map((x) => `<li>${escapeHtml(x)}</li>`).join("")}</ol>
+    <div id="report"></div>`;
+}
+
+function renderBriefing(items) {
+  $("#details-panel").hidden = false;
+  $("#details").innerHTML = `<h3>📰 Recent official scam warnings</h3>
+    <ul class="report">${items.map((i) => `<li><a href="${escapeHtml(i.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(i.headline)}</a> <small>${escapeHtml(i.source)}${i.published ? ` · ${escapeHtml(i.published)}` : ""}</small></li>`).join("")}</ul>`;
+}
+
+function renderWarning(d) {
+  $("#details-panel").hidden = false;
+  const box = $("#warning") || (() => { $("#details").insertAdjacentHTML("beforeend", '<div id="warning"></div>'); return $("#warning"); })();
+  box.innerHTML = `<h3>👨‍👩‍👧 Warning to send${d.recipient ? ` to ${escapeHtml(d.recipient)}` : ""}</h3><p class="official"><q>${escapeHtml(d.message)}</q></p>`;
 }
 
 function renderReport(links) {
@@ -207,12 +289,13 @@ $("#type-form").addEventListener("submit", (e) => {
   e.preventDefault();
   const t = $("#typed").value;
   $("#typed").value = "";
-  handleUtterance(t.toLowerCase().startsWith("alexa") ? t : `Alexa, is this a scam? ${t}`);
+  handleUtterance(/^\s*alexa\b/i.test(t) || isCommand(t) ? t : `Alexa, is this a scam? ${t}`);
 });
 
 document.querySelectorAll("[data-ex]").forEach((b) =>
   b.addEventListener("click", () => handleUtterance(`Alexa, is this a scam? I got a text saying: ${EXAMPLES[b.dataset.ex]}`))
 );
+document.querySelectorAll("[data-say]").forEach((b) => b.addEventListener("click", () => handleUtterance(b.dataset.say)));
 
 // Load voices early (Chrome populates them asynchronously).
 if ("speechSynthesis" in window) speechSynthesis.getVoices();
