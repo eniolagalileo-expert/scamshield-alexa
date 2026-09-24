@@ -1,0 +1,348 @@
+{
+  "summary": {
+    "set": "test-v2",
+    "model": "sonnet",
+    "client": "Claude Code",
+    "n": 37,
+    "answered": 37,
+    "accuracy": 0.946,
+    "scams_caught": "22/22",
+    "false_alarms": "2/15",
+    "avg_seconds": 12.1
+  },
+  "results": [
+    {
+      "id": "v01",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 15.529,
+      "turns": 4,
+      "error": null
+    },
+    {
+      "id": "v02",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 16.748,
+      "turns": 5,
+      "error": null
+    },
+    {
+      "id": "v03",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 10.299,
+      "turns": 3,
+      "error": null
+    },
+    {
+      "id": "v04",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 18.518,
+      "turns": 3,
+      "error": null
+    },
+    {
+      "id": "v05",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 15.541,
+      "turns": 5,
+      "error": null
+    },
+    {
+      "id": "v06",
+      "label": "scam",
+      "verdict": "suspicious",
+      "correct": true,
+      "seconds": 11.509,
+      "turns": 3,
+      "error": null
+    },
+    {
+      "id": "v07",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 10.821,
+      "turns": 5,
+      "error": null
+    },
+    {
+      "id": "v08",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 13.752,
+      "turns": 5,
+      "error": null
+    },
+    {
+      "id": "v09",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 12.769,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v10",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.719,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "v11",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 9.287,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v12",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.14,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v13",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 10.373,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "v14",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 9.578,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v15",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.295,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v16",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.093,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v17",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 9.576,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v18",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 13.549,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "v19",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 10.621,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v20",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.912,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "v21",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.781,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "v22",
+      "label": "scam",
+      "verdict": "scam",
+      "correct": true,
+      "seconds": 11.744,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl01",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 10.587,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "vl02",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 11.259,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl03",
+      "label": "legit",
+      "verdict": "suspicious",
+      "correct": false,
+      "seconds": 12.169,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl04",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 10.663,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl05",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 13.5,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl06",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 7.9,
+      "turns": 3,
+      "error": null
+    },
+    {
+      "id": "vl07",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 9.326,
+      "turns": 3,
+      "error": null
+    },
+    {
+      "id": "vl08",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 11.62,
+      "turns": 3,
+      "error": null
+    },
+    {
+      "id": "vl09",
+      "label": "legit",
+      "verdict": "suspicious",
+      "correct": false,
+      "seconds": 9.788,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl10",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 16.062,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "vl11",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 9.644,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl12",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 13.398,
+      "turns": 1,
+      "error": null
+    },
+    {
+      "id": "vl13",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 9.682,
+      "turns": 2,
+      "error": null
+    },
+    {
+      "id": "vl14",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 21.219,
+      "turns": 6,
+      "error": null
+    },
+    {
+      "id": "vl15",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "correct": true,
+      "seconds": 13.449,
+      "turns": 2,
+      "error": null
+    }
+  ]
+}

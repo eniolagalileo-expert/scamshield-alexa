@@ -1,0 +1,423 @@
+{
+  "summary": {
+    "set": "test-v2",
+    "model": "sonnet",
+    "mode": "rules + MCP sampling second opinion",
+    "n": 37,
+    "accuracy": 0.973,
+    "scams_caught": "22/22",
+    "false_alarms": "1/15",
+    "sampling_calls": 28,
+    "raised_by_second_opinion": 13
+  },
+  "results": [
+    {
+      "id": "v01",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Real payments never require you to pay a fee first to unlock money you're owed.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.321
+    },
+    {
+      "id": "v02",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Sharing that code lets them hijack your Google Voice number for other scams — never share verification codes.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.918
+    },
+    {
+      "id": "v03",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Real police don't demand instant payment by gift or prepaid card to avoid arrest.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 7.584
+    },
+    {
+      "id": "v04",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Real utility companies never demand Bitcoin ATM payment with urgent shutoff threats — this is a fake bill scam.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 7.907
+    },
+    {
+      "id": "v05",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.004
+    },
+    {
+      "id": "v06",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "A stranger claiming a wrong number then asking personal questions is a common scam opener — be cautious.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.817
+    },
+    {
+      "id": "v07",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.003
+    },
+    {
+      "id": "v08",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Real banks never ask you to read back a text code; that code lets thieves into your account.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.868
+    },
+    {
+      "id": "v09",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.001
+    },
+    {
+      "id": "v10",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.002
+    },
+    {
+      "id": "v11",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.001
+    },
+    {
+      "id": "v12",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Real landlords don't ask for deposits via Cash App before you've even seen the apartment.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.4
+    },
+    {
+      "id": "v13",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.002
+    },
+    {
+      "id": "v14",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Strangers pretending to be family with a \"new number\" who ask for urgent money are a classic scam trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.254
+    },
+    {
+      "id": "v15",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.002
+    },
+    {
+      "id": "v16",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake \"cashback\" prize with a suspicious shortened link is a common trick to steal your info.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.72
+    },
+    {
+      "id": "v17",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.002
+    },
+    {
+      "id": "v18",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "Fake billing alerts pressuring quick calls are common scams, but this could also be a real receipt.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.031
+    },
+    {
+      "id": "v19",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": null,
+      "correct": true,
+      "seconds": 0.002
+    },
+    {
+      "id": "v20",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Guaranteed 30% daily returns is impossible and a classic pump-and-dump or investment scam tactic.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.085
+    },
+    {
+      "id": "v21",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake toll bill trying to scare you into paying quickly through a suspicious, unofficial website link.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 7.119
+    },
+    {
+      "id": "v22",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "Real companies don't ask you to call a phone number in the alert — verify only through Coinbase's official app or site.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.935
+    },
+    {
+      "id": "vl01",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is a normal one-time login code Uber sends you; sharing it is what's risky, not receiving it.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.481
+    },
+    {
+      "id": "vl02",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "Standard fraud alert with no request for personal info; tells you to call the number on your own card.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.918
+    },
+    {
+      "id": "vl03",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "Standard delivery notice with no links or urgent demands; matches normal Amazon delivery messages.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.673
+    },
+    {
+      "id": "vl04",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "Sounds like a normal family message asking you to call, nothing asks for money or personal info.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.554
+    },
+    {
+      "id": "vl05",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like a normal doctor's office appointment reminder, not a scam.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.78
+    },
+    {
+      "id": "vl06",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "A routine school note about a $5 field trip fee, nothing unusual or pressuring.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.824
+    },
+    {
+      "id": "vl07",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "A normal job-interview scheduling email with no requests for money or personal details.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.416
+    },
+    {
+      "id": "vl08",
+      "label": "legit",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "Could be a friend, but scammers also hack accounts to ask contacts for quick money like this.",
+        "used": true
+      },
+      "correct": false,
+      "seconds": 5.784
+    },
+    {
+      "id": "vl09",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "Routine utility bill notice with no urgency, links, or payment tricks typical of scams.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.852
+    },
+    {
+      "id": "vl10",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like a standard sign-in alert from Netflix's real email address, nothing asking you to click or pay.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.766
+    },
+    {
+      "id": "vl11",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "Sounds like a normal pharmacy pickup notice, not a scam.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.269
+    },
+    {
+      "id": "vl12",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is a routine flight gate change notice with no requests for money or personal info.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.025
+    },
+    {
+      "id": "vl13",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like a normal alert saying it's fine and asks you to do nothing, so it's low risk.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 7.093
+    },
+    {
+      "id": "vl14",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like a normal USPS mail-notification message, not an urgent scam request.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.643
+    },
+    {
+      "id": "vl15",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like a real bank verification code with a genuine warning not to share it.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.957
+    }
+  ]
+}
