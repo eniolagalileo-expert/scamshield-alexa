@@ -1,0 +1,167 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "scam shield",
+      "intents": [
+        {
+          "name": "CheckMessageIntent",
+          "slots": [
+            {
+              "name": "message",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "is this a scam {message}",
+            "check this message {message}",
+            "check this text {message}",
+            "i got a text saying {message}",
+            "i got a text that says {message}",
+            "i got a message saying {message}",
+            "i got a message that says {message}",
+            "i got an email saying {message}",
+            "the message says {message}",
+            "the text says {message}",
+            "it says {message}",
+            "someone texted me {message}",
+            "check {message}",
+            "is this real {message}"
+          ]
+        },
+        {
+          "name": "PhoneCallIntent",
+          "slots": [
+            {
+              "name": "caller",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "someone is on the phone saying {caller}",
+            "someone's on the phone saying {caller}",
+            "someone is calling me saying {caller}",
+            "i'm on the phone with someone saying {caller}",
+            "a caller says {caller}",
+            "a man is calling saying {caller}",
+            "a woman is calling saying {caller}",
+            "i got a call from {caller}",
+            "someone called saying {caller}",
+            "someone's on the phone from {caller}"
+          ]
+        },
+        {
+          "name": "BriefingIntent",
+          "slots": [],
+          "samples": [
+            "what scams are going around",
+            "what scams are going around right now",
+            "any new scams",
+            "what are the latest scams",
+            "scam news",
+            "scam alerts",
+            "give me the scam briefing",
+            "what scams should i watch out for"
+          ]
+        },
+        {
+          "name": "PracticeIntent",
+          "slots": [],
+          "samples": [
+            "let's practice",
+            "let's practice spotting scams",
+            "quiz me",
+            "practice",
+            "test me",
+            "play the scam quiz",
+            "give me a practice message"
+          ]
+        },
+        {
+          "name": "ScamAnswerIntent",
+          "slots": [],
+          "samples": [
+            "scam",
+            "it's a scam",
+            "that's a scam",
+            "it is a scam",
+            "fake",
+            "it's fake",
+            "i think it's a scam",
+            "that's fake"
+          ]
+        },
+        {
+          "name": "RealAnswerIntent",
+          "slots": [],
+          "samples": [
+            "real",
+            "it's real",
+            "that's real",
+            "it is real",
+            "legit",
+            "it's legit",
+            "it's safe",
+            "i think it's real",
+            "genuine"
+          ]
+        },
+        {
+          "name": "ReportIntent",
+          "slots": [],
+          "samples": [
+            "how do i report it",
+            "how do i report this",
+            "report it",
+            "where do i report it",
+            "who do i tell"
+          ]
+        },
+        {
+          "name": "WarnFamilyIntent",
+          "slots": [
+            {
+              "name": "relative",
+              "type": "AMAZON.FirstName"
+            }
+          ],
+          "samples": [
+            "warn my {relative}",
+            "warn {relative}",
+            "tell {relative} about this",
+            "write a warning for {relative}",
+            "warn my family"
+          ]
+        },
+        {
+          "name": "AMAZON.YesIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NoIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}
