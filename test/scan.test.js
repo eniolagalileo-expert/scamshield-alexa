@@ -8,12 +8,11 @@ const load = (name) => JSON.parse(readFileSync(new URL(`../eval/${name}.json`, i
 const accuracy = (set) => set.filter((d) => (scanMessage(d.text).verdict !== "likely_safe") === (d.label === "scam")).length / set.length;
 
 test("development sets stay at 100% (guards against regressions)", () => {
-  assert.equal(accuracy(load("dev-a")), 1);
-  assert.equal(accuracy(load("dev-b")), 1);
+  for (const set of ["dev-a", "dev-b", "dev-c"]) assert.equal(accuracy(load(set)), 1, set);
 });
 
-test("held-out test set stays at or above its recorded 90%", () => {
-  assert.ok(accuracy(load("test")) >= 0.9);
+test("held-out test v2 stays at or above its recorded 86%", () => {
+  assert.ok(accuracy(load("test-v2")) >= 0.86);
 });
 
 test("finds bare domains and disguised addresses", () => {
@@ -30,4 +29,16 @@ test("speech is short and leads with the verdict", () => {
   const r = scanMessage("Grandma it's me, don't tell mom. I need $3,000 for bail right now, send gift cards.");
   assert.match(r.speech, /^This looks like a scam\./);
   assert.ok(r.speech.split(/[.!?]/).filter(Boolean).length <= 4);
+});
+
+test("answers in the message's language", () => {
+  const es = scanMessage("Correos: Su paquete está retenido por falta de pago de 1,79 EUR en tasas de aduana. Pague en las próximas 24 horas o será devuelto: https://correos-envios-pago.top/es");
+  assert.equal(es.language, "es");
+  assert.match(es.speech, /^Esto parece una estafa\. Pide una pequeña tarifa/);
+  assert.match(es.speech, /No responda, no pague/);
+  const hi = scanMessage("प्रिय ग्राहक, आपका SBI खाता आज बंद कर दिया जाएगा। अपना KYC तुरंत अपडेट करें: http://sbi-kyc-update.online/in और OTP साझा करें।");
+  assert.equal(hi.language, "hi");
+  assert.match(hi.speech, /^यह एक धोखाधड़ी लगती है।/);
+  const en = scanMessage("Your Uber code is 4821. Never share this code with anyone.");
+  assert.equal(en.language, "en");
 });

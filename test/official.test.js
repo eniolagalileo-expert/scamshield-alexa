@@ -34,3 +34,20 @@ test("abbreviations like U.S. don't split a sentence", () => {
   assert.equal(best.length, 1);
   assert.match(best[0], /^These phishing emails .* US Postal Service, but they are not/);
 });
+
+test("briefing headlines are cleaned for speech and junk pages are skipped", async () => {
+  const { cleanHeadline, isUsefulAlert } = await import("../lib/briefing.js");
+  assert.equal(cleanHeadline("Consumer Alert: FCC Warns Consumers of 'Grandparent Scam' Robocalls | Federal Communications Commission"), "FCC Warns Consumers of 'Grandparent Scam' Robocalls");
+  assert.equal(cleanHeadline("The latest scam alerts from Which? - Which? - Which.co.uk"), "The latest scam alerts from Which?");
+  assert.equal(cleanHeadline("Scammers are spoofing car dealership websites: What you need to ..."), "Scammers are spoofing car dealership websites");
+  assert.equal(cleanHeadline("Pay-by-phone - watch out"), "Pay-by-phone - watch out");
+  assert.equal(cleanHeadline("Helping small businesses - National Cyber Security Centre"), "Helping small businesses");
+  assert.equal(isUsefulAlert("https://consumer.ftc.gov/consumer-alerts/archive/202609", "Consumer Alerts Archive"), false);
+  assert.equal(isUsefulAlert("http://www.irs.gov/zh-hant/newsroom/x", "IRS warning"), false);
+  assert.equal(isUsefulAlert("https://consumer.ftc.gov/consumer-alerts/2026/09/x", "Scammers are spoofing car dealership websites"), true);
+});
+
+test("archive pages in other languages are skipped", async () => {
+  const { isUsefulAlert } = await import("../lib/briefing.js");
+  assert.equal(isUsefulAlert("https://consumer.ftc.gov/alertas-consumidores/archivo", "Archivo de las alertas para consumidores"), false);
+});

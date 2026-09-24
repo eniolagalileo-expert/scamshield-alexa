@@ -31,7 +31,8 @@ test("negotiates MCP 2025-11-25 and exposes the tools, prompt and resource", asy
   assert.match(client.getInstructions(), /check_message/);
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [
-    "check_link", "check_message", "check_phone_number", "how_to_report_scam", "search_scam_reports", "verify_with_official_source",
+    "check_link", "check_message", "check_phone_call", "check_phone_number", "how_to_report_scam", "scam_briefing",
+    "search_scam_reports", "verify_with_official_source", "warn_family",
   ]);
   assert.ok(tools.every((t) => t.annotations?.readOnlyHint === true));
   const { prompts } = await client.listPrompts();
@@ -72,4 +73,34 @@ test("web tools degrade gracefully without a Tavily key", async () => {
 test("rejects invalid arguments", async () => {
   const r = await client.callTool({ name: "check_link", arguments: { url: "" } });
   assert.equal(r.isError, true);
+});
+
+test("check_phone_call asks the next question, then decides", async () => {
+  const first = await client.callTool({ name: "check_phone_call", arguments: { caller_claims_to_be: "my bank" } });
+  assert.equal(first.structuredContent.status, "need_answer");
+  const key = first.structuredContent.next_question.key;
+  assert.equal(key, "asked_for_code");
+  const second = await client.callTool({ name: "check_phone_call", arguments: { caller_claims_to_be: "my bank", answers: { [key]: true } } });
+  assert.equal(second.structuredContent.verdict, "scam");
+  assert.match(second.content[0].text, /^Hang up now/);
+  assert.match(second.content[0].text, /your bank back/);
+});
+
+test("check_phone_call decides immediately from a clear description", async () => {
+  const r = await client.callTool({ name: "check_phone_call", arguments: { caller_claims_to_be: "the IRS", what_they_want: "says I owe taxes and must pay with gift cards or police will arrest me" } });
+  assert.equal(r.structuredContent.verdict, "scam");
+});
+
+test("warn_family composes a message but sends nothing", async () => {
+  const r = await client.callTool({ name: "warn_family", arguments: { recipient: "mom", about: "USPS package fee text" } });
+  assert.match(r.structuredContent.message, /^Hi Mom, heads up: I just got a fake delivery text/);
+  assert.match(r.content[0].text, /Should I send it\?$/);
+});
+
+test("check_phone_call knows Microsoft never cold-calls, and asks relevant questions first", async () => {
+  const ms = await client.callTool({ name: "check_phone_call", arguments: { caller_claims_to_be: "Microsoft", what_they_want: "says my computer has a virus" } });
+  assert.equal(ms.structuredContent.verdict, "scam");
+  assert.match(ms.content[0].text, /never call you out of the blue/);
+  const irs = await client.callTool({ name: "check_phone_call", arguments: { caller_claims_to_be: "the IRS" } });
+  assert.equal(irs.structuredContent.next_question.key, "asked_for_unusual_payment");
 });
