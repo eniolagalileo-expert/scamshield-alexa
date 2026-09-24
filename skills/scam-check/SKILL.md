@@ -33,6 +33,7 @@ Help the person decide, calmly and quickly, whether what they received is a scam
 ## Other things people ask
 - "What scams are going around?": call `scam_briefing` (pass their country if known) and read the short briefing.
 - After a scam verdict, offer to warn a relative: `warn_family` composes the message; read it back and ask before sending.
+- "Let's practice" / "quiz me": use `practice_quiz` with action `next`, read the message, take their guess ("scam" or "real"), then call it with action `answer`. Keep score and offer another.
 
 ## Rules
 
