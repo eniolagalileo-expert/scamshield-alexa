@@ -97,8 +97,10 @@ const onACall = (u) => /\b(on the (phone|line)|(is |are )?calling me|(someone|so
 const familyTarget = (u) => (u.match(/\b(?:warn|tell|let|message|text)\s+(?:my\s+)?(mom|mum|mother|dad|father|son|daughter|grandson|granddaughter|grandma|grandpa|wife|husband|sister|brother|family|friend)\b/i) || [])[1];
 const YES = /^(yes|yeah|yep|yup|uh huh|they are|they did|he is|she is|he did|she did|correct|right|true)\b/i;
 const NO = /^(no|nope|nah|not really|they aren'?t|they didn'?t|he isn'?t|she isn'?t|he didn'?t|she didn'?t)\b/i;
-const isCommand = (u) => wantsReport(u) || wantsBriefing(u) || onACall(u) || familyTarget(u) || YES.test(u) || NO.test(u);
+const wantsPractice = (u) => /\b(practice|quiz me|let'?s (play|practice)|test me|train me)\b/i.test(u);
+const isCommand = (u) => wantsPractice(u) ||  wantsReport(u) || wantsBriefing(u) || onACall(u) || familyTarget(u) || YES.test(u) || NO.test(u);
 
+let quiz = null; // { id, seen, score, asked }
 let callSession = null; // { caller_claims_to_be, what_they_want, answers, pendingKey }
 let lastMessage = "";
 
@@ -118,7 +120,19 @@ async function handleUtterance(utterance) {
   try {
     let reply;
     let lang = "en";
-    if (callSession && (YES.test(text) || NO.test(text))) {
+    if (quiz?.id && !wantsPractice(text) && /\b(scam|fake|fraud|real|legit|genuine|safe|not a scam)\b/i.test(text)) {
+      const r = await mcp.callTool("practice_quiz", { action: "answer", id: quiz.id, guess: text });
+      quiz.asked++; if (r.data.correct) quiz.score++;
+      quiz.id = null;
+      renderQuiz(r.data);
+      reply = r.speech.replace("Want another one?", `That's ${quiz.score} out of ${quiz.asked}. Want another one?`);
+    } else if (wantsPractice(text) || (quiz && /^(yes|yeah|sure|ok|okay|another|next|go on)\b/i.test(text))) {
+      quiz ??= { seen: [], score: 0, asked: 0 };
+      const r = await mcp.callTool("practice_quiz", { action: "next", seen: quiz.seen });
+      quiz.id = r.data.id; quiz.seen.push(r.data.id);
+      renderQuiz(null);
+      reply = r.speech;
+    } else if (callSession && (YES.test(text) || NO.test(text))) {
       reply = await continueCall(YES.test(text));
     } else if (onACall(text)) {
       callSession = { caller_claims_to_be: callerClaim(text), what_they_want: extractMessage(text), answers: {} };
@@ -139,6 +153,7 @@ async function handleUtterance(utterance) {
       const message = extractMessage(text) || text;
       lastMessage = message;
       callSession = null;
+      quiz = null;
       const r = await mcp.callTool("check_message", { message, country });
       lastResult = r.data;
       renderDetails(r.data);
@@ -169,8 +184,10 @@ async function handleUtterance(utterance) {
     say("bot", msg);
     await speak(msg);
   }
-  setState("idle", callSession ? "Answer yes or no" : "Tap the mic and ask");
-  if (callSession) showCallAnswers();
+  setState("idle", callSession ? "Answer yes or no" : quiz?.id ? "Scam or real?" : "Tap the mic and ask");
+  if (quiz?.id) showQuizAnswers();
+  else if (quiz) showQuizNext();
+  else if (callSession) showCallAnswers();
   else if (lastResult && lastResult.verdict !== "likely_safe") showFollowUp();
 }
 
@@ -187,6 +204,29 @@ async function continueCall(answer) {
     callSession = null;
   }
   return r.speech;
+}
+
+function showQuizAnswers() {
+  $("#hint").innerHTML = `Say <em>"scam"</em> or <em>"real"</em>, or tap: <button type="button" class="link" id="q-scam">Scam</button> · <button type="button" class="link" id="q-real">Real</button>`;
+  $("#q-scam").onclick = () => handleUtterance("It's a scam");
+  $("#q-real").onclick = () => handleUtterance("It's real");
+}
+
+function showQuizNext() {
+  $("#hint").innerHTML = `Say <em>"another one"</em>, or <button type="button" class="link" id="q-next">tap for the next message</button>.`;
+  $("#q-next").onclick = () => handleUtterance("Another one");
+}
+
+function renderQuiz(result) {
+  $("#details-panel").hidden = false;
+  if (!result) {
+    $("#details").innerHTML = `<h3>🎓 Practice: scam or real?</h3><p class="muted">Listen to the message and decide.</p><p class="official">Score: ${quiz.score} / ${quiz.asked}</p>`;
+    return;
+  }
+  const flags = (result.red_flags || []).map((f) => `<li><strong>${escapeHtml(f.flag)}</strong><q>${escapeHtml(f.evidence)}</q></li>`).join("");
+  $("#details").innerHTML = `<h3>🎓 Practice: ${result.correct ? "✅ Correct" : "❌ Not quite"}</h3>
+    <p>It was <strong>${result.answer === "scam" ? "a scam" : "a real message"}</strong>. Score: ${quiz.score} / ${quiz.asked}</p>
+    ${flags ? `<ul class="flags">${flags}</ul>` : ""}`;
 }
 
 function showCallAnswers() {
