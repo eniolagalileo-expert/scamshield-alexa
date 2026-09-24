@@ -38,4 +38,14 @@ Honest notes from building ScamShield with the MCP TypeScript SDK (1.30.1) and t
 - **Workaround:** run both modes on one endpoint. If the `initialize` request declares the `sampling` capability, create a session transport (SSE); otherwise keep the stateless JSON path. See `server.js`.
 - **Suggestion:** a note in the SDK docs next to `enableJsonResponse`/stateless mode that server-initiated requests (sampling, elicitation) require sessions and SSE.
 
-## 8. [ADD] Anything you hit while deploying, recording, or testing with real clients
+## 8. Spoken web addresses arrive differently per locale
+- **What I wanted:** check links that people read aloud ("usps dot com dash track dot top").
+- **What happened:** in `en-US`, an `AMAZON.SearchQuery` slot keeps the words ("dot com dash"), so the skill has to rebuild the address itself. In `es-US`, Alexa's speech recognition had already rewritten "usps punto com guion entrega punto top barra pago" into `usps.comentrega.top/pago`, dropping the dash, so the address the skill sees is not the one in the text.
+- **Workaround:** rebuild spoken addresses in both languages (`normalizeSpokenLinks` in `lib/clues.js`), and judge the address the skill receives on its own (look-alike domain, risky ending).
+- **Suggestion:** document how each locale formats spoken URLs in `AMAZON.SearchQuery`, or offer a slot option that keeps the raw words.
+
+## 9. Enabling APL is a two-step change
+- **What happened:** before APL was enabled, simulator requests had empty `supportedInterfaces`, so no card could be sent. Turning on the APL interface and saving isn't enough: the console says the model must be rebuilt for it to take effect. After the rebuild, requests included `Alexa.Presentation.APL` and the card rendered.
+- **Workaround:** save the interface, then **Build skill**. The code sends the card only when the request says the device supports APL, so voice-only devices never get it.
+
+## 10. [ADD] Anything you hit while deploying, recording, or testing with real clients
