@@ -50,6 +50,13 @@ Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom ski
 - *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
 - *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
 
+Built for how people actually talk to Alexa:
+- **Links read aloud work.** *"usps dot com dash track dash redelivery dot top slash pkg"* is rebuilt into `usps.com-track-redelivery.top/pkg` and caught as a disguised link (Spanish too: *"punto com guion … barra"*).
+- **A voice made for warnings.** SSML stresses *"This looks like a scam"* and *"Hang up now"*, pauses between sentences, and slows down slightly when warning, which helps older listeners.
+- **No dead air.** When ScamShield checks the impersonated company's official website, Alexa first says *"One moment…"* through the [Progressive Response API](https://developer.amazon.com/en-US/docs/alexa/custom-skills/send-the-user-a-progressive-response.html), so the listener isn't left in silence.
+- **A card on Echo Show.** Devices with a screen get an [APL](https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/understand-apl.html) card: **SCAM** / **BE CAREFUL** / **LOOKS OK** in big letters, the evidence quoted from the message, and one thing to remember. Practice-quiz messages are shown on screen so you can read along.
+- **En español.** An `es-US` model ([`es-US.json`](skill-package/interactionModels/custom/es-US.json)): *"Alexa, abre escudo antiestafas"*, then *"es esto una estafa…"* or *"alguien me está llamando del banco"*. Message checks, the phone-call interview, reporting and the family warning are fully in Spanish (the briefing and quiz are English-only for now, and it says so).
+
 It has been run end to end in the **Alexa developer console simulator** against the live Render deployment: see the [transcript and screenshot](docs/alexa-simulator-transcript.md).
 
 Every request is **verified as coming from Amazon**: the certificate URL and chain (issued for `echo-api.amazon.com`, chained to a trusted root), the RSA-SHA256 body signature, and a 150-second timestamp window. Set `ALEXA_SKILL_ID` to also pin the skill ID.
@@ -125,9 +132,10 @@ lib/briefing.js        scam_briefing from official consumer alerts
 lib/family.js          warn_family message
 lib/practice.js        practice_quiz
 lib/second-opinion.js  MCP sampling second opinion
-lib/alexa.js           Alexa custom-skill conversation handler
+lib/alexa.js           Alexa custom-skill conversation handler (English + Spanish, SSML, progressive responses)
+lib/alexa-apl.js       Visual verdict card for Echo Show (APL)
 lib/alexa-verify.js    Alexa request signature verification
-skill-package/         Alexa interaction model
+skill-package/         Alexa interaction models (en-US, es-US)
 lib/clues.js           Link/phone analysis, clue extraction
 lib/tavily.js          Tavily search + multi-page extract
 lib/official.js        Picks the official page and the sentence that answers the question

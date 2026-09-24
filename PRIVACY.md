@@ -12,7 +12,7 @@ ScamShield is built for people who may be worried, rushed, or older. It is desig
 
 **Links are never opened.** Suspicious links are analyzed as text. ScamShield never fetches, clicks, or previews them.
 
-**Alexa:** requests are accepted only when signed by Amazon (certificate chain, signature, and timestamp are verified). The skill uses Alexa session attributes only for the current conversation (the current quiz question, the phone-call answers so far, and the last message checked, so "warn my family" can refer to it); nothing is kept after the session ends.
+**Alexa:** requests are accepted only when signed by Amazon (certificate chain, signature, and timestamp are verified). The skill uses Alexa session attributes only for the current conversation (the current quiz question, the phone-call answers so far, and the last message checked, so "warn my family" can refer to it); nothing is kept after the session ends. To say "One moment…" during a slow check, it sends only that fixed phrase back to Amazon's own Alexa API (never to any other address), using the short-lived token Amazon includes in the request.
 
 **Browser demo:** the simulated Alexa+ page keeps no history; speech recognition and speech output use the browser's built-in features.
 
