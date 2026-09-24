@@ -69,3 +69,14 @@ test("the endpoint rejects unsigned requests", async () => {
     proc.kill();
   }
 });
+
+test("caller phrases are cleaned before being spoken back", async () => {
+  const { cleanClaim } = await import("../lib/call.js");
+  assert.equal(cleanClaim("he's from my bank"), "my bank");
+  assert.equal(cleanClaim("saying they are with the IRS"), "the IRS");
+  assert.equal(cleanClaim("she is calling from Microsoft"), "Microsoft");
+  assert.equal(cleanClaim("my bank"), "my bank");
+  const r1 = await handleAlexa(intent("PhoneCallIntent", { caller: "he's from my bank" }));
+  const r2 = await handleAlexa(intent("AMAZON.YesIntent", {}, r1.sessionAttributes));
+  assert.match(speech(r2), /call your bank back/);
+});
