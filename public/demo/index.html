@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScamShield for Alexa+</title>
+  <meta name="description" content="Ask Alexa if a message is a scam. A voice-first MCP server, demoed in a simulated Alexa+ experience." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">🛡️ ScamShield <span class="for">for Alexa+</span></div>
+    <span class="badge" title="This page simulates an Alexa+ device calling the ScamShield MCP server">Simulated Alexa+ · MCP 2025-11-25</span>
+  </header>
+
+  <main class="layout">
+    <section class="device-col">
+      <div class="device" id="device" data-state="idle">
+        <div class="ring"><div class="ring-inner"></div></div>
+        <p class="state-label" id="state-label">Tap the mic and ask</p>
+      </div>
+
+      <div class="controls">
+        <button id="mic" class="mic" aria-label="Talk to Alexa">🎙️</button>
+        <p class="hint" id="hint">Say: <em>"Alexa, is this a scam? I got a text saying…"</em> and read the message out.</p>
+      </div>
+
+      <form id="type-form" class="type-form">
+        <label for="typed" class="sr-only">Or type or paste the message</label>
+        <textarea id="typed" rows="3" placeholder="…or paste the message you received"></textarea>
+        <button class="btn">Ask Alexa</button>
+      </form>
+
+      <div class="examples">
+        <span>Try:</span>
+        <button type="button" data-ex="usps">📦 Package fee</button>
+        <button type="button" data-ex="grandkid">👵 "Grandma, it's me"</button>
+        <button type="button" data-ex="bank">🏦 Bank alert</button>
+        <button type="button" data-ex="real">✅ Real 2FA code</button>
+        <button type="button" data-ex="spanish">🇪🇸 Spanish scam</button>
+        <button type="button" data-say="Alexa, someone is on the phone saying he's from my bank">📞 "Caller says he's my bank"</button>
+        <button type="button" data-say="Alexa, what scams are going around right now?">📰 What scams are going around?</button>
+        <button type="button" data-say="Alexa, let's practice spotting scams">🎓 Practice spotting scams</button>
+      </div>
+    </section>
+
+    <section class="panel-col">
+      <div class="panel">
+        <h2>Conversation</h2>
+        <ol id="chat" class="chat">
+          <li class="bot">Hi! If you got a message that seems off, just ask me: <em>"Is this a scam?"</em></li>
+        </ol>
+      </div>
+
+      <div class="panel" id="details-panel" hidden>
+        <h2>What ScamShield found</h2>
+        <div id="details"></div>
+      </div>
+
+      <div class="panel">
+        <h2>MCP activity <small>(live calls from "Alexa" to the ScamShield server)</small></h2>
+        <ol id="calls" class="calls"><li class="muted">No calls yet.</li></ol>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    ScamShield is a self-hosted MCP server (Streamable HTTP). This page simulates how Alexa+ would use it. ScamShield never opens suspicious links.
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
