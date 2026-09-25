@@ -48,4 +48,10 @@ Honest notes from building ScamShield with the MCP TypeScript SDK (1.30.1) and t
 - **What happened:** before APL was enabled, simulator requests had empty `supportedInterfaces`, so no card could be sent. Turning on the APL interface and saving isn't enough: the console says the model must be rebuilt for it to take effect. After the rebuild, requests included `Alexa.Presentation.APL` and the card rendered.
 - **Workaround:** save the interface, then **Build skill**. The code sends the card only when the request says the device supports APL, so voice-only devices never get it.
 
-## 10. [ADD] Anything you hit while deploying, recording, or testing with real clients
+## 10. Tavily results sometimes ignore `include_domains`, and fixed query wording drifts
+- **What happened:** while recording the demo, a search restricted to `usps.com` returned Kaspersky and Palo Alto pages plus USPS PDFs. A briefing restricted to FTC/FBI/SSA domains returned pages from ago.vermont.gov and fincen.gov, and menu pages like "Credit, Loans, and Debt". The same fixed query ("USPS scam text email phishing smishing") that found USPS's scam FAQ earlier in the day stopped finding it.
+- **Workaround:** never trust the filter alone. `rankPages` and the briefing re-check every result against the official domains (exact host or subdomain, so `fakeusps.com` is not `usps.com`). Searches now include the scam's own topic from the message ("USPS scam alert redelivery fee"). Spoken quotes must be a clear statement from the company ("Amazon will never request…"), and if there isn't one, the quote is skipped.
+- **Also:** a live search plus extraction can take 4 to 8 seconds, longer than a voice assistant can wait. Briefings are cached for an hour (served instantly while refreshing, and warmed at startup) and quotes for a day.
+- **Suggestion:** document whether `include_domains` is a hard filter or a ranking hint.
+
+## 11. [ADD] Anything you hit while deploying, recording, or testing with real clients
