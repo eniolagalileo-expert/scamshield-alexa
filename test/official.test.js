@@ -107,3 +107,11 @@ test("briefing keeps only official, real alerts even if the search returns other
     if (hadKey === undefined) delete process.env.TAVILY_API_KEY; else process.env.TAVILY_API_KEY = hadKey;
   }
 });
+
+test("only a clear statement from the company itself is quoted", async () => {
+  const { clearStatement } = await import("../lib/official.js");
+  assert.equal(clearStatement(["Most companies will not reach out via text message.", "PayPal will never ask you for your password in an email."], "PayPal"), "PayPal will never ask you for your password in an email.");
+  assert.equal(clearStatement(["More information: Email phishing scams The IRS does not initiate contact with taxpayers by email to request personal or financial information."], "the IRS"), "The IRS does not initiate contact with taxpayers by email to request personal or financial information.");
+  assert.equal(clearStatement(["Most companies will not reach out via text message."], "USPS"), "");
+  assert.equal(clearStatement(["They usually request that you provide payments to apply for jobs that don't exist. Amazon will never ask for that job fee."], "Amazon"), "");
+});
