@@ -177,6 +177,7 @@ async function loadAlerts() {
   try {
     const { data } = await mcp.callTool("scam_briefing", { country: COUNTRY });
     if (!data.items?.length) throw new Error("none");
+    if (data.recent === false) $("h-alerts").textContent = "Official scam warnings";
     list.replaceChildren(...data.items.map((it) => {
       const li = el("li");
       li.append(el("a", it.headline, { href: it.url, target: "_blank", rel: "noopener" }));
