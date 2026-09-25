@@ -29,5 +29,7 @@
   { "id": "tl07", "label": "legit", "type": "Subscription (genuine)", "text": "From: Spotify <no-reply@spotify.com>\nYour Premium plan renews on Oct 2 for $11.99. You can manage your plan anytime in your account settings." },
   { "id": "tl08", "label": "legit", "type": "Vet reminder", "text": "Paws & Claws Vet: Buddy is due for his rabies vaccine this month. Call us or book online to schedule. See you soon!" },
   { "id": "tl09", "label": "legit", "type": "Work shift", "text": "Hey, can you cover my Saturday shift at the cafe? I'll take your Tuesday. Let me know asap so I can tell the manager." },
-  { "id": "tl10", "label": "legit", "type": "Verification code", "text": "Your WhatsApp code: 381-904. Don't share this code with others." }
+  { "id": "tl10", "label": "legit", "type": "Verification code", "text": "Your WhatsApp code: 381-904. Don't share this code with others." },
+  { "id": "t21", "label": "scam", "type": "Fake order (call to cancel)", "text": "Amazon: your order of an iPhone 15 was placed. If this was not you call 1-888-555-0199 to cancel" },
+  { "id": "tl11", "label": "legit", "type": "Order notice", "text": "Amazon: your order of AA batteries has shipped. If this wasn't you, you can review it in Your Orders in the Amazon app." }
 ]
