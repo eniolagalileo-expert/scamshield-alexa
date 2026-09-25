@@ -84,3 +84,26 @@ test("the briefing is cached, so a voice assistant gets it instantly the second 
     if (hadKey === undefined) delete process.env.TAVILY_API_KEY; else process.env.TAVILY_API_KEY = hadKey;
   }
 });
+
+test("briefing keeps only official, real alerts even if the search returns other sites", async () => {
+  const realFetch = globalThis.fetch;
+  const hadKey = process.env.TAVILY_API_KEY;
+  process.env.TAVILY_API_KEY = "test";
+  globalThis.fetch = async () => new Response(JSON.stringify({ results: [
+    { url: "https://consumer.ftc.gov/credit-loans-debt", title: "Credit, Loans, and Debt | Consumer Advice", content: "avoid scams and fraud" },
+    { url: "https://ago.vermont.gov/scam-prevention", title: "Scam Prevention Through Awareness and Education", content: "scam" },
+    { url: "https://www.fincen.gov/news/fincen-identifies-fraud", title: "FinCEN Identifies Nearly $13 Billion Linked to Suspected Fraud", content: "fraud" },
+    { url: "https://consumer.ftc.gov/consumer-alerts/2026/09/see-qr-code-parked-somewhere-dont-scan-ityet", title: "See a QR code parked somewhere? Don't scan it…yet!", content: "scammers put fake QR codes on parking meters" },
+    { url: "https://www.ic3.gov/PSA/2026/PSA260917", title: "Internet Crime Complaint Center (IC3) | Scammers Impersonating Law Enforcement", content: "fraud" },
+  ] }), { headers: { "Content-Type": "application/json" } });
+  try {
+    const { scamBriefing } = await import("../lib/briefing.js");
+    const r = await scamBriefing({ country: "US", topic: "official-only-test" });
+    const urls = r.items.map((i) => i.url);
+    assert.ok(urls.every((u) => /consumer\.ftc\.gov\/consumer-alerts|ic3\.gov\/PSA/.test(u)), urls.join(", "));
+    assert.equal(r.items.length, 2);
+  } finally {
+    globalThis.fetch = realFetch;
+    if (hadKey === undefined) delete process.env.TAVILY_API_KEY; else process.env.TAVILY_API_KEY = hadKey;
+  }
+});
