@@ -58,3 +58,29 @@ test("archive pages in other languages are skipped", async () => {
   const { isUsefulAlert } = await import("../lib/briefing.js");
   assert.equal(isUsefulAlert("https://consumer.ftc.gov/alertas-consumidores/archivo", "Archivo de las alertas para consumidores"), false);
 });
+
+test("the briefing is cached, so a voice assistant gets it instantly the second time", async () => {
+  const realFetch = globalThis.fetch;
+  const hadKey = process.env.TAVILY_API_KEY;
+  process.env.TAVILY_API_KEY = "test";
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls++;
+    return new Response(JSON.stringify({ results: [
+      { url: "https://consumer.ftc.gov/consumer-alerts/2026/09/scammers-are-impersonating-farm-equipment-businesses", title: "Scammers are impersonating farm equipment businesses", content: "scam" },
+      { url: "https://www.ic3.gov/PSA/2026/PSA260917", title: "Internet Crime Complaint Center (IC3) | Scammers Impersonating Law Enforcement", content: "fraud" },
+    ] }), { headers: { "Content-Type": "application/json" } });
+  };
+  try {
+    const { scamBriefing } = await import("../lib/briefing.js");
+    const first = await scamBriefing({ country: "US", topic: "cache-test" });
+    const made = calls;
+    const second = await scamBriefing({ country: "US", topic: "cache-test" });
+    assert.equal(calls, made, "no new searches for a cached briefing");
+    assert.deepEqual(second, first);
+    assert.deepEqual(first.items.map((i) => i.source).sort(), ["the FBI", "the FTC"]);
+  } finally {
+    globalThis.fetch = realFetch;
+    if (hadKey === undefined) delete process.env.TAVILY_API_KEY; else process.env.TAVILY_API_KEY = hadKey;
+  }
+});
