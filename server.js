@@ -12,6 +12,7 @@ import { isInitializeRequest } from "@modelcontextprotocol/sdk/types.js";
 import { createServer } from "./lib/mcp.js";
 import { searchEnabled } from "./lib/tavily.js";
 import { handleAlexa } from "./lib/alexa.js";
+import { warmBriefing } from "./lib/briefing.js";
 import { verifyAlexaRequest } from "./lib/alexa-verify.js";
 
 const PORT = Number(process.env.PORT || 3000);
@@ -132,4 +133,5 @@ root.listen(PORT, HOST, () => {
   console.log(`ScamShield MCP server: http://localhost:${PORT}/mcp`);
   console.log(`Simulated Alexa+ app:  http://localhost:${PORT}/`);
   if (!searchEnabled()) console.log("⚠️  TAVILY_API_KEY not set: web checks (official sources, scam reports) are off.");
+  else warmBriefing("US"); // so "Alexa, what scams are going around?" answers instantly
 });
