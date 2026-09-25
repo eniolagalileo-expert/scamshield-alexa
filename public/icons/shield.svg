@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ScamShield">
+  <path d="M32 4 L54 12 V30 C54 44 44.5 54.5 32 60 C19.5 54.5 10 44 10 30 V12 Z" fill="#0b5cab"/>
+  <path d="M32 9.5 L49 15.8 V30 C49 41 41.6 49.6 32 54.3 C22.4 49.6 15 41 15 30 V15.8 Z" fill="#1f7ae0"/>
+  <path d="M22.5 31.5 L29 38 L42 24.5" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
