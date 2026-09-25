@@ -71,6 +71,35 @@
           ]
         },
         {
+          "name": "RecoveryIntent",
+          "slots": [
+            {
+              "name": "what",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "me estafaron",
+            "creo que me estafaron",
+            "caí en una estafa",
+            "ya pagué",
+            "ya hice clic en el enlace",
+            "ayuda me estafaron",
+            "qué hago me estafaron",
+            "pagué con {what}",
+            "ya pagué con {what}",
+            "les envié {what}",
+            "envié {what}",
+            "les di {what}",
+            "di {what}",
+            "compartí {what}",
+            "puse {what}",
+            "les dejé {what}",
+            "hice clic en {what}",
+            "compré {what}"
+          ]
+        },
+        {
           "name": "ReportIntent",
           "samples": [
             "cómo lo reporto",

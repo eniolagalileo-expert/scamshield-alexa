@@ -106,6 +106,42 @@
           ]
         },
         {
+          "name": "RecoveryIntent",
+          "slots": [
+            {
+              "name": "what",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "i got scammed",
+            "i think i got scammed",
+            "i think i've been scammed",
+            "i was scammed",
+            "i've been scammed",
+            "i fell for a scam",
+            "i already paid",
+            "i already clicked the link",
+            "help i got scammed",
+            "what do i do now i got scammed",
+            "i paid with {what}",
+            "i paid them with {what}",
+            "i already paid with {what}",
+            "i sent them {what}",
+            "i sent {what}",
+            "i gave them {what}",
+            "i shared {what}",
+            "i told them {what}",
+            "i entered {what}",
+            "i typed {what}",
+            "i let them {what}",
+            "i clicked {what}",
+            "i bought {what}",
+            "i wired {what}",
+            "i got scammed with {what}"
+          ]
+        },
+        {
           "name": "ReportIntent",
           "slots": [],
           "samples": [
