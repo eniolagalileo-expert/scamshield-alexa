@@ -4,11 +4,18 @@
 **"Alexa, someone's on the phone saying he's from my bank."**
 **"Alexa, what scams are going around?"**
 
-ScamShield is a **self-hosted MCP server** (Streamable HTTP, **MCP spec 2025-11-25**) that gives Alexa+, or any MCP-capable assistant, the tools to check suspicious messages, links and phone numbers, and to answer **out loud, in plain language**. It comes with an **Agent Skill** and a **simulated Alexa+ web app** that demos the full voice experience.
+ScamShield is a free, private scam checker you can use four ways, all powered by one **self-hosted MCP server** (Streamable HTTP, **MCP spec 2025-11-25**) that answers **in plain language, out loud if you like**:
 
-Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track.
+| | Where | What you can do |
+|---|---|---|
+| 🌐 **Website** | **https://scamshield-alexa.onrender.com** | Paste a message → verdict, reasons, what the real company says, what to do, where to report, a warning to send your family. "Someone is calling me now" helper. Live scam alerts from the FTC/FBI/SSA. |
+| 📱 **Phone app** | Same address → "Add to Home Screen" | Installs as an app; on Android, **share a suspicious text straight to ScamShield** from your messages app. |
+| 🔊 **Alexa** | "Alexa, open Scam Shield" / "abre escudo antiestafas" | The same checks by voice, in English and Spanish, with a verdict card on Echo Show. |
+| 🤖 **AI assistants** | MCP endpoint `https://scamshield-alexa.onrender.com/mcp` | Alexa+, Claude or any MCP client gets 10 read-only tools, plus an **Agent Skill**. A **simulated Alexa+** demo is at [`/demo/`](https://scamshield-alexa.onrender.com/demo/). |
 
-**Live:** MCP endpoint `https://scamshield-alexa.onrender.com/mcp` · demo https://scamshield-alexa.onrender.com · real Alexa skill tested in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on a free Render instance, kept awake by a [GitHub Actions ping](.github/workflows/keepalive.yml) every 10 minutes so Alexa never hits a cold start.
+The website is itself an MCP client: every check it does goes through the same MCP tools that assistants use. [Privacy](https://scamshield-alexa.onrender.com/privacy.html) · [Terms](https://scamshield-alexa.onrender.com/terms.html)
+
+Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track. The Alexa skill is tested end to end in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on Render, kept awake by a [GitHub Actions ping](.github/workflows/keepalive.yml) every 10 minutes so Alexa never hits a cold start.
 
 ## Why voice?
 Scams hit the people least likely to open a laptop and research a link: older adults, busy parents, non-native speakers. Asking the assistant already in the kitchen is the most natural way to get a second opinion before you tap, pay or call back.
@@ -141,7 +148,8 @@ lib/tavily.js          Tavily search + multi-page extract
 lib/official.js        Picks the official page and the sentence that answers the question
 lib/report.js          Reporting channels by country
 lib/guide.js           Read-aloud scam guide (MCP resource)
-public/                Simulated Alexa+ web app (voice in/out, browser MCP client)
+public/                Website (MCP client): checker, call helper, alerts, privacy, terms, PWA
+public/demo/           Simulated Alexa+ web app (voice in/out, browser MCP client)
 skills/scam-check/     Agent Skill
 docs/                  Real MCP client transcripts
 eval/                  Labeled message sets + results

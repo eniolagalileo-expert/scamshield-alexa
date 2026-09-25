@@ -2,7 +2,8 @@
 //   POST /mcp      MCP endpoint (stateless by default; sessions for clients that support sampling)
 //   GET  /health   status
 //   POST /alexa    Alexa custom-skill endpoint (requests are signature-verified)
-//   GET  /         "Simulated Alexa+" voice web app that uses the MCP server
+//   GET  /         ScamShield website (a real MCP client): message checker, call helper, alerts, privacy, terms
+//   GET  /demo/    "Simulated Alexa+" voice web app that uses the MCP server
 
 import { randomUUID } from "node:crypto";
 import express from "express";
