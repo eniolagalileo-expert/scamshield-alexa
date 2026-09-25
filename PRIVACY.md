@@ -2,7 +2,9 @@
 
 ScamShield is built for people who may be worried, rushed, or older. It is designed to learn as little about them as possible.
 
-**What ScamShield stores:** nothing. There is no database, no accounts, and no message history on the server. Each check is handled in memory and forgotten when the response is sent.
+**What ScamShield stores:** nothing. There is no account and no message history on the server. Each check is handled in memory and forgotten when the response is sent.
+
+**Optional Alexa memory (built, not yet switched on).** When `ALEXA_MEMORY=on`, the Alexa skill can remember three things, each only after the person agrees or asks: the first name of the relative to warn, the name of their bank, and an open "I got scammed" case to ask about next time (the situation type and date, never the message). Records are keyed by a salted SHA-256 hash of Alexa's user ID (Amazon's identifier itself is never stored), expire after 90 days, and are deleted immediately when the person says "forget me". The public privacy policy will be updated before this is switched on.
 
 **What it logs:** only operational errors, as an error type and code location. Message text is never written to logs; error messages are dropped on purpose because some (like JSON parse errors) can quote the request body.
 

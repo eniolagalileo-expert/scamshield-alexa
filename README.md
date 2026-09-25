@@ -66,6 +66,12 @@ Built for how people actually talk to Alexa:
 - **A card on Echo Show.** Devices with a screen get an [APL](https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/understand-apl.html) card: **SCAM** / **BE CAREFUL** / **LOOKS OK** in big letters, the evidence quoted from the message, and one thing to remember. Practice-quiz messages are shown on screen so you can read along.
 - **En español.** An `es-US` model ([`es-US.json`](skill-package/interactionModels/custom/es-US.json)): *"Alexa, abre escudo antiestafas"*, then *"es esto una estafa…"* or *"alguien me está llamando del banco"*. Message checks, the phone-call interview, reporting and the family warning are fully in Spanish (the briefing and quiz are English-only for now, and it says so).
 
+**Remembers across sessions, only with permission** (built and tested; switched on after the current certification, see below). Judges of this track asked for skills that *"keep context across sessions"*, and so do the people ScamShield serves:
+- *"Warn my daughter Maria"* → *"Want me to remember Maria as the person to warn next time?"* Next time, *"warn my family"* just works.
+- *"My bank is Chase"* → when someone calls claiming to be your bank, the verdict ends with *"Call Chase yourself, using the number on the back of your card."*
+- After *"I think I got scammed"*: *"Want me to check in about this next time?"* Next launch: *"Welcome back. Last time, we talked about this: paid with a gift card. Did you reach the company that issued the gift card?"* "No" repeats the first step, "yes" closes the case.
+- *"Forget me"* deletes everything. Nothing is saved without a yes (or an explicit "my bank is…"), entries expire after 90 days, and the store is keyed by a salted hash of Alexa's user ID, so it never holds Amazon's identifier ([`lib/memory.js`](lib/memory.js), Upstash Redis over REST, no extra dependency). If the store is slow or down, the skill answers normally, as if it remembers nothing. It is off unless `ALEXA_MEMORY=on`: the skill was submitted for certification as storing nothing, so it goes live together with its updated privacy policy and interaction model.
+
 It has been run end to end in the **Alexa developer console simulator** against the live Render deployment: see the [transcript and screenshot](docs/alexa-simulator-transcript.md).
 
 Every request is **verified as coming from Amazon**: the certificate URL and chain (issued for `echo-api.amazon.com`, chained to a trusted root), the RSA-SHA256 body signature, and a 150-second timestamp window. Set `ALEXA_SKILL_ID` to also pin the skill ID.
@@ -130,6 +136,13 @@ npm run bench            # accuracy benchmark
 ### Deploy (Render, free)
 Push to GitHub → Render **New → Blueprint** (uses `render.yaml`) → set `TAVILY_API_KEY`.
 
+## MCP spec: ready for 2026-07-28
+ScamShield speaks MCP **2025-11-25**, the newest version the official TypeScript SDK (1.30.1) supports. The [2026-07-28 revision](https://modelcontextprotocol.io/specification/2026-07-28/changelog) makes MCP stateless and deprecates sampling. We're already most of the way there:
+- **Stateless by default.** Every request gets a fresh server and a plain JSON response; no tool depends on a session.
+- **State travels as tool arguments.** Multi-step flows pass their state back explicitly: `check_phone_call` takes the `answers` so far, `scam_recovery` takes the `situations`. That is the 2026-07-28 model ("explicit handles passed as ordinary tool arguments").
+- **Deterministic `tools/list`**, which the new revision recommends for client caching.
+- **Sampling is the one thing to migrate.** Sessions exist only so `check_message` can ask the client's model for a second opinion. The new spec deprecates sampling in favor of calling a model provider directly. Our plan: keep rules-first answers (explainable, instant, free), and move the second opinion to a direct, optional model call, while every tool already returns `red_flags` with evidence so the assistant's own model can take that second look itself.
+
 ## Project structure
 ```
 server.js              Express + Streamable HTTP transport (stateless), static demo app
@@ -144,6 +157,8 @@ lib/second-opinion.js  MCP sampling second opinion
 lib/alexa.js           Alexa custom-skill conversation handler (English + Spanish, SSML, progressive responses)
 lib/alexa-apl.js       Visual verdict card for Echo Show (APL)
 lib/alexa-verify.js    Alexa request signature verification
+lib/memory.js          Opt-in memory across Alexa sessions (hashed keys, 90-day expiry, "forget me")
+lib/recovery.js        scam_recovery: ordered steps after someone already paid, clicked or shared
 skill-package/         Alexa interaction models (en-US, es-US)
 lib/clues.js           Link/phone analysis, clue extraction
 lib/tavily.js          Tavily search + multi-page extract
@@ -159,7 +174,7 @@ test/                  node:test suites (official MCP client end-to-end)
 ```
 
 ## Safety and privacy
-ScamShield never opens, fetches or clicks suspicious links; it analyzes them as text. It stores nothing, never logs message text, and only sends company names or short queries to web search. Full details: [PRIVACY.md](PRIVACY.md). ScamShield gives guidance, not legal or financial advice.
+ScamShield never opens, fetches or clicks suspicious links; it analyzes them as text. It stores nothing about the person unless they opt in to the Alexa memory described above (off until the skill's next certified version), never logs message text, and only sends company names or short queries to web search. Full details: [PRIVACY.md](PRIVACY.md). ScamShield gives guidance, not legal or financial advice.
 
 ## License
 MIT

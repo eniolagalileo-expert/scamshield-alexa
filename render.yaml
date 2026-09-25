@@ -9,3 +9,9 @@ services:
     envVars:
       - key: TAVILY_API_KEY
         sync: false
+      - key: UPSTASH_REDIS_REST_URL
+        sync: false
+      - key: UPSTASH_REDIS_REST_TOKEN
+        sync: false
+      - key: MEMORY_SALT
+        generateValue: true
