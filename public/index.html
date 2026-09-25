@@ -3,72 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ScamShield for Alexa+</title>
-  <meta name="description" content="Ask Alexa if a message is a scam. A voice-first MCP server, demoed in a simulated Alexa+ experience." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
-  <link rel="stylesheet" href="style.css" />
+  <title>ScamShield: is this message a scam?</title>
+  <meta name="description" content="Paste a suspicious text, email or link and get a clear answer in plain language: is it a scam, why, and what to do. Free, private, and on Alexa." />
+  <meta name="theme-color" content="#0b5cab" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icons/shield.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/icons/icon-180.png" />
+  <meta property="og:title" content="ScamShield: is this message a scam?" />
+  <meta property="og:description" content="Paste a suspicious message and get a clear answer: is it a scam, why, and what to do. Also on Alexa." />
+  <meta property="og:image" content="/icons/og.png" />
+  <link rel="stylesheet" href="/site.css" />
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">🛡️ ScamShield <span class="for">for Alexa+</span></div>
-    <span class="badge" title="This page simulates an Alexa+ device calling the ScamShield MCP server">Simulated Alexa+ · MCP 2025-11-25</span>
+  <a class="skip" href="#check">Skip to the message checker</a>
+  <header class="top">
+    <a class="brand" href="/"><img src="/icons/shield.svg" alt="" width="32" height="32" /> ScamShield</a>
+    <nav>
+      <a href="#alerts">Scam alerts</a>
+      <a href="#alexa">On Alexa</a>
+      <a href="#faq">Help</a>
+    </nav>
   </header>
 
-  <main class="layout">
-    <section class="device-col">
-      <div class="device" id="device" data-state="idle">
-        <div class="ring"><div class="ring-inner"></div></div>
-        <p class="state-label" id="state-label">Tap the mic and ask</p>
-      </div>
+  <main>
+    <section class="hero" id="check" aria-labelledby="h-check">
+      <h1 id="h-check">Is this message a scam?</h1>
+      <p class="lead">Paste a text, email, or link you're not sure about. You'll get a clear answer, the reasons, and what to do next.</p>
 
-      <div class="controls">
-        <button id="mic" class="mic" aria-label="Talk to Alexa">🎙️</button>
-        <p class="hint" id="hint">Say: <em>"Alexa, is this a scam? I got a text saying…"</em> and read the message out.</p>
-      </div>
-
-      <form id="type-form" class="type-form">
-        <label for="typed" class="sr-only">Or type or paste the message</label>
-        <textarea id="typed" rows="3" placeholder="…or paste the message you received"></textarea>
-        <button class="btn">Ask Alexa</button>
+      <form id="check-form" class="checker">
+        <label for="message" class="sr-only">The message you received</label>
+        <textarea id="message" name="message" rows="5" maxlength="4000" required
+          placeholder="Paste the message here. For example: &quot;USPS: your package is on hold. Pay the $1.99 fee at…&quot;"></textarea>
+        <div class="checker-row">
+          <button type="submit" class="btn primary" id="check-btn">Check this message</button>
+          <button type="button" class="btn ghost" id="call-btn">Someone is calling me now</button>
+        </div>
+        <p class="fine">Your message is checked and then forgotten. We never open the links in it. <a href="/privacy.html">Privacy</a></p>
       </form>
 
-      <div class="examples">
-        <span>Try:</span>
-        <button type="button" data-ex="usps">📦 Package fee</button>
-        <button type="button" data-ex="grandkid">👵 "Grandma, it's me"</button>
-        <button type="button" data-ex="bank">🏦 Bank alert</button>
-        <button type="button" data-ex="real">✅ Real 2FA code</button>
-        <button type="button" data-ex="spanish">🇪🇸 Spanish scam</button>
-        <button type="button" data-say="Alexa, someone is on the phone saying he's from my bank">📞 "Caller says he's my bank"</button>
-        <button type="button" data-say="Alexa, what scams are going around right now?">📰 What scams are going around?</button>
-        <button type="button" data-say="Alexa, let's practice spotting scams">🎓 Practice spotting scams</button>
+      <div class="examples" aria-label="Examples">
+        <span>Try an example:</span>
+        <button type="button" data-ex="usps">Package fee text</button>
+        <button type="button" data-ex="grandkid">"Grandma, it's me"</button>
+        <button type="button" data-ex="bank">Bank alert</button>
+        <button type="button" data-ex="real">Real security code</button>
+        <button type="button" data-ex="spanish">En español</button>
       </div>
     </section>
 
-    <section class="panel-col">
-      <div class="panel">
-        <h2>Conversation</h2>
-        <ol id="chat" class="chat">
-          <li class="bot">Hi! If you got a message that seems off, just ask me: <em>"Is this a scam?"</em></li>
-        </ol>
+    <section id="result" class="result" hidden aria-live="polite" aria-labelledby="verdict-title">
+      <div class="verdict" id="verdict">
+        <h2 id="verdict-title"></h2>
+        <p id="verdict-speech"></p>
+        <button type="button" class="btn small ghost-light" id="speak-btn">🔊 Read it to me</button>
       </div>
+      <div class="result-body">
+        <div class="col">
+          <h3>Why</h3>
+          <ul id="flags" class="flags"></ul>
+          <p id="official" class="official" hidden></p>
+        </div>
+        <div class="col">
+          <h3>What to do</h3>
+          <ol id="todo" class="todo"></ol>
+          <h3>Report it</h3>
+          <ul id="report" class="report"></ul>
+          <button type="button" class="btn secondary" id="warn-btn">Warn my family</button>
+          <div id="warn" class="warn" hidden>
+            <p id="warn-text"></p>
+            <div class="checker-row">
+              <button type="button" class="btn small" id="share-btn">Share</button>
+              <button type="button" class="btn small ghost" id="copy-btn">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <div class="panel" id="details-panel" hidden>
-        <h2>What ScamShield found</h2>
-        <div id="details"></div>
+    <section id="call" class="call" hidden aria-live="polite" aria-labelledby="call-title">
+      <h2 id="call-title">Someone is on the phone</h2>
+      <form id="call-start" class="call-start">
+        <label for="caller">Who do they say they are?</label>
+        <input id="caller" placeholder="For example: my bank, the IRS, Microsoft, my grandson" maxlength="60" />
+        <button class="btn primary">Start</button>
+      </form>
+      <div id="call-q" hidden>
+        <p class="call-question" id="call-question"></p>
+        <div class="checker-row">
+          <button type="button" class="btn primary" data-answer="yes">Yes</button>
+          <button type="button" class="btn ghost" data-answer="no">No</button>
+        </div>
       </div>
+      <div id="call-verdict" class="verdict" hidden>
+        <h2 id="call-verdict-title"></h2>
+        <p id="call-verdict-speech"></p>
+      </div>
+    </section>
 
-      <div class="panel">
-        <h2>MCP activity <small>(live calls from "Alexa" to the ScamShield server)</small></h2>
-        <ol id="calls" class="calls"><li class="muted">No calls yet.</li></ol>
+    <section class="band" aria-labelledby="h-how">
+      <h2 id="h-how">How ScamShield helps</h2>
+      <div class="cards">
+        <article class="card"><h3>Plain answers</h3><p>"This looks like a scam", "Be careful" or "Looks OK", with the two strongest reasons. No jargon.</p></article>
+        <article class="card"><h3>Never opens links</h3><p>Disguised and look-alike web addresses are spotted from the text alone, so checking is always safe.</p></article>
+        <article class="card"><h3>Checks the real company</h3><p>For messages that claim to be from USPS, Amazon, a bank or the IRS, ScamShield reads that company's official website.</p></article>
+        <article class="card"><h3>English and Spanish</h3><p>Answers in the language of the message. Spanish, Hindi and Indonesian messages are understood too.</p></article>
       </div>
+    </section>
+
+    <section id="alerts" class="alerts" aria-labelledby="h-alerts">
+      <h2 id="h-alerts">Scams going around now</h2>
+      <p class="muted">Recent warnings from official sources like the FTC, the FBI and Social Security.</p>
+      <ul id="alerts-list" class="alerts-list"><li class="muted">Loading the latest official warnings…</li></ul>
+    </section>
+
+    <section id="alexa" class="alexa" aria-labelledby="h-alexa">
+      <div>
+        <h2 id="h-alexa">Just ask Alexa</h2>
+        <p>ScamShield works on Echo devices too, no typing needed. Say:</p>
+        <ul class="phrases">
+          <li>"Alexa, open Scam Shield"</li>
+          <li>"Is this a scam? It says: your package is on hold…"</li>
+          <li>"Someone's on the phone saying he's from my bank"</li>
+          <li>"What scams are going around?"</li>
+          <li lang="es">"Alexa, abre escudo antiestafas"</li>
+        </ul>
+        <p class="muted" id="alexa-status">The Scam Shield skill is being prepared for the Alexa Skills Store. On an Echo Show, the answer appears on screen in big letters.</p>
+      </div>
+      <img src="/icons/echo-card.jpg" alt="An Echo Show screen showing a red card that says SCAM, with the reasons listed" class="alexa-img" loading="lazy" />
+    </section>
+
+    <section class="band" aria-labelledby="h-assistants">
+      <h2 id="h-assistants">For AI assistants and developers</h2>
+      <p>ScamShield is an open <strong>MCP server</strong>, so Alexa+, Claude and other assistants can use the same checks. Connect to <code>https://scamshield-alexa.onrender.com/mcp</code>. It's open source, and the detection engine is also a standalone library, <a href="https://github.com/eniolagalileo-expert/scam-signals">scam-signals</a>.</p>
+      <p><a href="https://github.com/eniolagalileo-expert/scamshield-alexa">Source code</a> · <a href="/demo/">Simulated Alexa+ demo</a></p>
+    </section>
+
+    <section id="faq" class="faq" aria-labelledby="h-faq">
+      <h2 id="h-faq">Help</h2>
+      <details><summary>How accurate is it?</summary><p>On messages written after the rules were made, the built-in rules alone caught 17 of 22 scams with no false alarms. With an AI assistant's second opinion, it caught all 22. No checker is perfect: if something feels wrong, trust that feeling and contact the company yourself, using a number or app you already trust. We publish every miss on GitHub.</p></details>
+      <details><summary>What happens to the message I paste?</summary><p>It's checked and then forgotten. We don't store it or write it to our logs, and we never open links in it. Only a company name and short topic (like "USPS redelivery fee") may be sent to a search service to read that company's official website. <a href="/privacy.html">Privacy details</a>.</p></details>
+      <details><summary>I already clicked the link or paid. What now?</summary><p>Don't panic. Call your bank using the number on your card and tell them. Change the password of any account you entered, and turn on two-step verification. Report it (links are shown with each result). If you gave remote access to your computer, disconnect it from the internet and get it checked.</p></details>
+      <details><summary>Can I use it on my phone?</summary><p>Yes. Open this page on your phone and choose "Add to Home Screen". On Android, you can then share a suspicious text straight to ScamShield from your messages app.</p></details>
+      <details><summary>Is it free?</summary><p>Yes. ScamShield is a free, open-source project.</p></details>
     </section>
   </main>
 
-  <footer class="footer">
-    ScamShield is a self-hosted MCP server (Streamable HTTP). This page simulates how Alexa+ would use it. ScamShield never opens suspicious links.
+  <footer class="foot">
+    <p>ScamShield is an independent, open-source project. It gives guidance, not a guarantee. When in doubt, contact the company directly.</p>
+    <p><a href="/privacy.html">Privacy</a> · <a href="/terms.html">Terms</a> · <a href="https://github.com/eniolagalileo-expert/scamshield-alexa">GitHub</a> · <a href="https://github.com/eniolagalileo-expert/scamshield-alexa/issues">Report a problem</a></p>
+    <p class="muted small">Alexa and all related marks are trademarks of Amazon.com, Inc. or its affiliates. ScamShield is not affiliated with or endorsed by Amazon, USPS, or any company mentioned.</p>
   </footer>
 
-  <script type="module" src="app.js"></script>
+  <script type="module" src="/site.js"></script>
 </body>
 </html>

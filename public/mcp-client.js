@@ -2,9 +2,10 @@
 // Performs the initialize handshake once, then calls tools with the negotiated protocol version.
 
 export class McpClient {
-  constructor(url, { onCall } = {}) {
+  constructor(url, { onCall, name = "simulated-alexa-plus" } = {}) {
     this.url = url;
     this.onCall = onCall || (() => {});
+    this.name = name;
     this.nextId = 1;
     this.ready = null;
     this.protocolVersion = "2025-11-25";
@@ -32,7 +33,7 @@ export class McpClient {
       this.ready = (async () => {
         const result = await this.post({
           jsonrpc: "2.0", id: this.nextId++, method: "initialize",
-          params: { protocolVersion: this.protocolVersion, capabilities: {}, clientInfo: { name: "simulated-alexa-plus", version: "1.0.0" } },
+          params: { protocolVersion: this.protocolVersion, capabilities: {}, clientInfo: { name: this.name, version: "1.0.0" } },
         });
         this.protocolVersion = result.protocolVersion;
         this.serverInfo = result.serverInfo;
