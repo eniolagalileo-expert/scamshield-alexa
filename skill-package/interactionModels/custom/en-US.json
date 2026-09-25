@@ -142,6 +142,35 @@
           ]
         },
         {
+          "name": "RememberBankIntent",
+          "slots": [
+            {
+              "name": "bank",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "my bank is {bank}",
+            "remember my bank is {bank}",
+            "i bank with {bank}",
+            "my bank is called {bank}",
+            "remember that my bank is {bank}"
+          ]
+        },
+        {
+          "name": "ForgetMeIntent",
+          "slots": [],
+          "samples": [
+            "forget me",
+            "forget everything about me",
+            "forget what you know about me",
+            "delete my information",
+            "delete my data",
+            "forget my information",
+            "erase my information"
+          ]
+        },
+        {
           "name": "ReportIntent",
           "slots": [],
           "samples": [
