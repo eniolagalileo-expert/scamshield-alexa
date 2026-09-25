@@ -9,7 +9,7 @@ const SETS = [
   ["dev-a", "Development set A (used for tuning)"],
   ["dev-b", "Development set B (used for tuning)"],
   ["dev-c", "Development set C (was held-out v1; later used for tuning)"],
-  ["test-v2", "**Held-out test v2 (written after all tuning, never tuned on)**"],
+  ["test-v2", "**Held-out test v2 (written after the rules; see note)**"],
 ];
 
 const rows = [];
@@ -32,6 +32,11 @@ const md = [
   "| Set | Messages | Accuracy | Scams caught | False alarms |",
   "|---|---|---|---|---|",
   ...rows,
+  "",
+  "**Note on test v2:** its first run (the honest held-out result) was **86%, 17/22 scams, 0/15 false alarms**. " +
+    "On Sept 24, 2026 a rule was widened to catch fake-order texts (\"if this was not you, call …\"), found while recording the demo " +
+    "and added to development set C. It also catches v22, one of the misses published below, so the current score is no longer a " +
+    "clean held-out number. We quote 86% as the held-out result.",
   "",
   "## Known misses",
   ...(misses.length ? misses.map((m) => `- ${m}`) : ["- none"]),
