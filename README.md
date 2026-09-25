@@ -57,7 +57,7 @@ Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom ski
 - *"Is this a scam? It says: your package is on hold…"*, then *"yes"* for how to report it, then *"yes"* for a warning to send your family
 - *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
 - *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
-- *"I think I got scammed"* → *"I paid with a gift card"*: the first steps out loud, the full plan in the Alexa phone app (*"creo que me estafaron"* in Spanish)
+- *"I think I got scammed"* → *"I paid with a gift card"*: the first steps out loud, the full plan in the Alexa phone app (*"creo que me estafaron"* in Spanish). The handler is live; the updated interaction model goes out with the next skill update, since the model can't change while the skill is in certification.
 
 Built for how people actually talk to Alexa:
 - **Links read aloud work.** *"usps dot com dash track dash redelivery dot top slash pkg"* is rebuilt into `usps.com-track-redelivery.top/pkg` and caught as a disguised link (Spanish too: *"punto com guion … barra"*).
