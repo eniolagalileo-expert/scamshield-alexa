@@ -19,6 +19,7 @@
   <header class="top">
     <a class="brand" href="/"><img src="/icons/shield.svg" alt="" width="32" height="32" /> ScamShield</a>
     <nav>
+      <a href="#recover">Already paid?</a>
       <a href="#alerts">Scam alerts</a>
       <a href="#alexa">On Alexa</a>
       <a href="#faq">Help</a>
@@ -37,8 +38,11 @@
         <div class="checker-row">
           <button type="submit" class="btn primary" id="check-btn">Check this message</button>
           <button type="button" class="btn ghost" id="call-btn">Someone is calling me now</button>
+          <button type="button" class="btn ghost" id="image-btn">📷 Screenshot or QR code</button>
+          <input type="file" id="image-input" accept="image/*" hidden />
         </div>
-        <p class="fine">Your message is checked and then forgotten. We never open the links in it. <a href="/privacy.html">Privacy</a></p>
+        <p class="fine" id="image-status" hidden aria-live="polite"></p>
+        <p class="fine">Your message is checked and then forgotten. We never open the links in it. Screenshots are read on your own device and never uploaded. <a href="/privacy.html">Privacy</a></p>
       </form>
 
       <div class="examples" aria-label="Examples">
@@ -69,6 +73,7 @@
           <h3>Report it</h3>
           <ul id="report" class="report"></ul>
           <button type="button" class="btn secondary" id="warn-btn">Warn my family</button>
+          <p class="small"><a href="#recover" id="recover-link">Already clicked, paid or shared something? Get help now</a></p>
           <div id="warn" class="warn" hidden>
             <p id="warn-text"></p>
             <div class="checker-row">
@@ -100,6 +105,13 @@
       </div>
     </section>
 
+    <section id="recover" class="recover" aria-labelledby="h-recover">
+      <h2 id="h-recover">Already paid, clicked or shared something?</h2>
+      <p>You're not alone, and acting quickly helps. Pick what happened, and you'll get the steps in the order that matters most. You can pick more than one.</p>
+      <div class="chips" id="recover-options" role="group" aria-label="What happened"></div>
+      <div id="recover-plan" aria-live="polite"></div>
+    </section>
+
     <section class="band" aria-labelledby="h-how">
       <h2 id="h-how">How ScamShield helps</h2>
       <div class="cards">
@@ -125,6 +137,7 @@
           <li>"Is this a scam? It says: your package is on hold…"</li>
           <li>"Someone's on the phone saying he's from my bank"</li>
           <li>"What scams are going around?"</li>
+          <li>"I think I got scammed"</li>
           <li lang="es">"Alexa, abre escudo antiestafas"</li>
         </ul>
         <p class="muted" id="alexa-status">The Scam Shield skill is being prepared for the Alexa Skills Store. On an Echo Show, the answer appears on screen in big letters.</p>

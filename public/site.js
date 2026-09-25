@@ -230,6 +230,122 @@ document.querySelectorAll("[data-answer]").forEach((b) => b.addEventListener("cl
   await callStep().catch(showError);
 }));
 
+// "I already paid, clicked or shared something": pick what happened, get the steps in order.
+const recovery = { picked: [] };
+async function loadRecoveryOptions() {
+  const { data } = await mcp.callTool("scam_recovery", {});
+  $("recover-options").replaceChildren(...data.options.map((o) => {
+    const b = el("button", o.label, { type: "button", "aria-pressed": "false", "data-key": o.key });
+    b.addEventListener("click", () => toggleRecovery(b));
+    return b;
+  }));
+}
+async function toggleRecovery(button) {
+  const key = button.dataset.key;
+  const on = button.getAttribute("aria-pressed") !== "true";
+  button.setAttribute("aria-pressed", String(on));
+  recovery.picked = on ? [...recovery.picked, key] : recovery.picked.filter((k) => k !== key);
+  const plan = $("recover-plan");
+  if (!recovery.picked.length) return plan.replaceChildren();
+  try {
+    // The server puts the most urgent situation first (e.g. remote access before a payment).
+    const order = [...$("recover-options").children].map((b) => b.dataset.key);
+    const situations = [...recovery.picked].sort((a, b) => order.indexOf(a) - order.indexOf(b)).slice(0, 3);
+    const { data } = await mcp.callTool("scam_recovery", { situations });
+    plan.replaceChildren(...data.situations.map((p) => {
+      const box = el("div", null, { class: "plan" });
+      box.append(el("h3", p.label));
+      const ol = el("ol");
+      for (const step of p.steps) ol.append(el("li", step));
+      box.append(ol);
+      return box;
+    }));
+    const report = el("p");
+    report.append("Report it, even if you got your money back: ", el("a", "ReportFraud.ftc.gov", { href: data.report, target: "_blank", rel: "noopener" }), ".");
+    plan.append(report);
+  } catch (err) {
+    plan.replaceChildren(el("p", "We couldn't load the steps right now. Call your bank or card company using the number on the back of your card, and report it at ReportFraud.ftc.gov."));
+  }
+}
+$("recover-link").addEventListener("click", () => $("recover-options").querySelector("button")?.focus({ preventScroll: true }));
+
+// Screenshot or QR code: read on this device (never uploaded), then checked like a pasted message.
+// A QR code's link is checked without opening it.
+const loadScript = (src) => new Promise((resolve, reject) => {
+  if (document.querySelector(`script[src="${src}"]`)) return resolve();
+  const s = el("script", null, { src, crossorigin: "anonymous" });
+  s.onload = resolve;
+  s.onerror = () => reject(new Error(`Couldn't load ${src}`));
+  document.head.append(s);
+});
+
+async function readQR(bitmap) {
+  if ("BarcodeDetector" in window) {
+    try {
+      const codes = await new BarcodeDetector({ formats: ["qr_code"] }).detect(bitmap);
+      if (codes[0]?.rawValue) return codes[0].rawValue;
+    } catch (_) { /* fall back to jsQR */ }
+  }
+  await loadScript("https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js");
+  const scale = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height));
+  const canvas = el("canvas", null, { width: Math.round(bitmap.width * scale), height: Math.round(bitmap.height * scale) });
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+  const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  return window.jsQR(img.data, img.width, img.height)?.data || "";
+}
+
+async function readText(file) {
+  await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
+  const worker = await window.Tesseract.createWorker(["eng", "spa"]);
+  try {
+    const { data } = await worker.recognize(file);
+    // Rejoin links that wrap onto the next line ("usps.com-track-\nredelivery.top").
+    return data.text.replace(/[ \t]+/g, " ").replace(/(\S[-/])\n(?=[a-z0-9])/g, "$1").replace(/\n{2,}/g, "\n").trim();
+  } finally {
+    await worker.terminate();
+  }
+}
+
+async function checkImage(file) {
+  const status = $("image-status");
+  const btn = $("image-btn");
+  btn.dataset.label ||= btn.textContent;
+  setBusy(btn, true, "Reading the picture…");
+  status.hidden = false;
+  status.textContent = "Looking for a QR code…";
+  try {
+    const bitmap = await createImageBitmap(file);
+    const qr = await readQR(bitmap).catch(() => "");
+    if (qr) {
+      status.textContent = `This QR code leads to: ${qr.slice(0, 200)}. We haven't opened it. Checking it now…`;
+      $("message").value = qr.slice(0, 4000);
+      await checkMessage(qr.slice(0, 4000));
+      status.textContent = `This QR code leads to: ${qr.slice(0, 200)}. We didn't open it.`;
+      return;
+    }
+    status.textContent = "Reading the text in the picture, on your device. The first time takes a few seconds…";
+    const text = await readText(file);
+    if (text.length < 8) {
+      status.textContent = "We couldn't find any text or QR code in that picture. Try a clearer screenshot, or type the message in.";
+      return;
+    }
+    status.textContent = "Here's the text we read from your screenshot. You can fix any mistakes and check it again.";
+    $("message").value = text.slice(0, 4000);
+    await checkMessage(text.slice(0, 4000));
+  } catch (err) {
+    status.textContent = "We couldn't read that picture. Please type or paste the message instead.";
+  } finally {
+    setBusy(btn, false, true);
+    $("image-input").value = "";
+  }
+}
+$("image-btn").addEventListener("click", () => $("image-input").click());
+$("image-input").addEventListener("change", () => {
+  const file = $("image-input").files?.[0];
+  if (file) checkImage(file);
+});
+
 // Shared from the phone's share menu (installed app), or a link like /?text=...
 const params = new URLSearchParams(location.search);
 const shared = [params.get("text"), params.get("title"), params.get("url")].filter(Boolean).join(" ").trim();
@@ -239,5 +355,16 @@ if (shared) {
   checkMessage($("message").value);
 }
 
+// A screenshot shared from the phone's share menu: the service worker kept it for us.
+if (params.get("image") && "caches" in window) {
+  history.replaceState(null, "", "/");
+  caches.open("scamshield-share").then(async (c) => {
+    const r = await c.match("/shared-image");
+    await c.delete("/shared-image");
+    if (r) checkImage(await r.blob());
+  }).catch(() => {});
+}
+
 loadAlerts();
+loadRecoveryOptions().catch(() => {});
 if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
