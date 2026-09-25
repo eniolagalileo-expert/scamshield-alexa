@@ -32,7 +32,7 @@ test("negotiates MCP 2025-11-25 and exposes the tools, prompt and resource", asy
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map((t) => t.name).sort(), [
     "check_link", "check_message", "check_phone_call", "check_phone_number", "how_to_report_scam", "practice_quiz",
-    "scam_briefing", "search_scam_reports", "verify_with_official_source", "warn_family",
+    "scam_briefing", "scam_recovery", "search_scam_reports", "verify_with_official_source", "warn_family",
   ]);
   assert.ok(tools.every((t) => t.annotations?.readOnlyHint === true));
   const { prompts } = await client.listPrompts();
@@ -114,4 +114,13 @@ test("practice_quiz asks, then explains the answer", async () => {
   assert.ok(["scam", "real"].includes(a.structuredContent.answer));
   const bad = await client.callTool({ name: "practice_quiz", arguments: { action: "answer", id: "nope", guess: "scam" } });
   assert.equal(bad.isError, true);
+});
+
+test("scam_recovery gives the most urgent steps first, or asks what happened", async () => {
+  const r = await client.callTool({ name: "scam_recovery", arguments: { what_happened: "I bought gift cards and read them the numbers" } });
+  assert.match(r.content[0].text, /company that issued the gift card/);
+  assert.equal(r.structuredContent.situations[0].key, "gift_card");
+  const ask = await client.callTool({ name: "scam_recovery", arguments: { language: "es" } });
+  assert.equal(ask.structuredContent.status, "need_details");
+  assert.match(ask.content[0].text, /¿Qué pasó\?/);
 });

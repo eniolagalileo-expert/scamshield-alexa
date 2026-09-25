@@ -156,3 +156,14 @@ test("progressive responses only go to Amazon's API", async () => {
     globalThis.fetch = realFetch;
   }
 });
+
+test("'I think I got scammed' asks what happened, then gives steps with a phone-app card", async () => {
+  const r1 = await handleAlexa(intent("RecoveryIntent"));
+  assert.match(speech(r1), /What happened\?/);
+  assert.equal(r1.sessionAttributes.mode, "recovery");
+  const r2 = await handleAlexa(intent("RecoveryIntent", { what: "my password on a fake site" }, r1.sessionAttributes));
+  assert.match(speech(r2), /^You're not alone.*Change that password now/);
+  assert.match(speech(r2), /Want to know how to report it\?$/);
+  assert.equal(r2.response.card.type, "Simple");
+  assert.match(r2.response.card.content, /two-step verification/);
+});
