@@ -4,6 +4,7 @@
 //   POST /alexa    Alexa custom-skill endpoint (requests are signature-verified)
 //   GET  /         ScamShield website (a real MCP client): message checker, call helper, alerts, privacy, terms
 //   GET  /demo/    "Simulated Alexa+" voice web app that uses the MCP server
+//   POST /share    phone share-menu fallback (the service worker normally handles it)
 
 import { randomUUID } from "node:crypto";
 import express from "express";
@@ -108,6 +109,8 @@ app.get("/mcp", sessionOnly);
 app.delete("/mcp", sessionOnly);
 
 app.get("/health", (req, res) => res.json({ ok: true, web_checks: searchEnabled(), mcp: "/mcp", alexa: "/alexa", protocol: "2025-11-25" }));
+// Share-menu fallback if the service worker isn't running yet (it normally handles POST /share).
+app.post("/share", (req, res) => res.redirect(303, "/"));
 app.use(express.static(new URL("./public", import.meta.url).pathname));
 
 // Alexa needs the raw body to check Amazon's signature, so its route sits in front of the MCP app's JSON parser.

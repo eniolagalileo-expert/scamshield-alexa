@@ -8,10 +8,10 @@ ScamShield is a free, private scam checker you can use four ways, all powered by
 
 | | Where | What you can do |
 |---|---|---|
-| 🌐 **Website** | **https://scamshield-alexa.onrender.com** | Paste a message → verdict, reasons, what the real company says, what to do, where to report, a warning to send your family. "Someone is calling me now" helper. Live scam alerts from the FTC/FBI/SSA. |
-| 📱 **Phone app** | Same address → "Add to Home Screen" | Installs as an app; on Android, **share a suspicious text straight to ScamShield** from your messages app. |
+| 🌐 **Website** | **https://scamshield-alexa.onrender.com** | Paste a message → verdict, reasons, what the real company says, what to do, where to report, a warning to send your family. **Check a screenshot or QR code** (read on your device, never uploaded; QR links are checked without opening them). "Someone is calling me now" helper. **"Already paid or clicked?"** step-by-step recovery. Live scam alerts from the FTC/FBI/SSA. |
+| 📱 **Phone app** | Same address → "Add to Home Screen" | Installs as an app; on Android, **share a suspicious text or screenshot straight to ScamShield** from your messages app. |
 | 🔊 **Alexa** | "Alexa, open Scam Shield" / "abre escudo antiestafas" | The same checks by voice, in English and Spanish, with a verdict card on Echo Show. |
-| 🤖 **AI assistants** | MCP endpoint `https://scamshield-alexa.onrender.com/mcp` | Alexa+, Claude or any MCP client gets 10 read-only tools, plus an **Agent Skill**. A **simulated Alexa+** demo is at [`/demo/`](https://scamshield-alexa.onrender.com/demo/). |
+| 🤖 **AI assistants** | MCP endpoint `https://scamshield-alexa.onrender.com/mcp` | Alexa+, Claude or any MCP client gets 11 read-only tools, plus an **Agent Skill**. A **simulated Alexa+** demo is at [`/demo/`](https://scamshield-alexa.onrender.com/demo/). |
 
 The website is itself an MCP client: every check it does goes through the same MCP tools that assistants use. [Privacy](https://scamshield-alexa.onrender.com/privacy.html) · [Terms](https://scamshield-alexa.onrender.com/terms.html)
 
@@ -33,6 +33,7 @@ Scams hit the people least likely to open a laptop and research a link: older ad
 | `check_phone_call` | **For a call in progress.** A stateless guided interview: returns the next yes/no question (the most relevant one first, e.g. codes for "my bank", remote access for "Microsoft") or a verdict. Knows who never cold-calls (Microsoft, Apple, the IRS by phone…). Usually 1–3 questions. | No |
 | `scam_briefing` | "What scams are going around?" Recent warnings from **official consumer-protection sites only** (FTC, USPIS, FBI IC3, FCC, Action Fraud, Scamwatch…), cleaned up for a spoken briefing | Yes (Tavily news) |
 | `warn_family` | Composes a short, calm warning to send to a relative. It sends nothing itself; the assistant confirms and sends | No |
+| `scam_recovery` | **"I already paid / clicked / shared something."** Ordered recovery steps for what actually happened (gift card, wire, payment app, card, crypto, shared code, password, remote access, personal details, clicked a link only), most urgent first; asks what happened if it isn't clear. English and Spanish | No |
 | `practice_quiz` | "Let's practice spotting scams." Reads a message aloud, takes the guess ("scam" / "real"), explains the giveaways, keeps it short for voice | No |
 
 Examples of live `verify_with_official_source` answers:
@@ -56,6 +57,7 @@ Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom ski
 - *"Is this a scam? It says: your package is on hold…"*, then *"yes"* for how to report it, then *"yes"* for a warning to send your family
 - *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
 - *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
+- *"I think I got scammed"* → *"I paid with a gift card"*: the first steps out loud, the full plan in the Alexa phone app (*"creo que me estafaron"* in Spanish)
 
 Built for how people actually talk to Alexa:
 - **Links read aloud work.** *"usps dot com dash track dash redelivery dot top slash pkg"* is rebuilt into `usps.com-track-redelivery.top/pkg` and caught as a disguised link (Spanish too: *"punto com guion … barra"*).
