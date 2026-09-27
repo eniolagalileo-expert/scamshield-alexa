@@ -13,7 +13,7 @@ ScamShield is a free, private scam checker you can use four ways, all powered by
 | 🔊 **Alexa** | "Alexa, open Scam Shield" / "abre escudo antiestafas" | The same checks by voice, in English and Spanish, with a verdict card on Echo Show. |
 | 🤖 **AI assistants** | MCP endpoint `https://scamshield-alexa.onrender.com/mcp` | Alexa+, Claude or any MCP client gets 11 read-only tools, plus an **Agent Skill**. A **simulated Alexa+** demo is at [`/demo/`](https://scamshield-alexa.onrender.com/demo/). |
 
-The website is itself an MCP client: every check it does goes through the same MCP tools that assistants use. [Privacy](https://scamshield-alexa.onrender.com/privacy.html) · [Terms](https://scamshield-alexa.onrender.com/terms.html)
+The website is itself an MCP client: every check it does goes through the same MCP tools that assistants use. Built for older eyes and slow phones: large text, high contrast, and **Lighthouse 100 in performance, accessibility, best practices and SEO** on every page (mobile, Sept 27, 2026). [Privacy](https://scamshield-alexa.onrender.com/privacy.html) · [Terms](https://scamshield-alexa.onrender.com/terms.html)
 
 Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track. The Alexa skill is tested end to end in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on Render, kept awake by a [GitHub Actions ping](.github/workflows/keepalive.yml) every 10 minutes so Alexa never hits a cold start.
 
