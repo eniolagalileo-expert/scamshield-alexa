@@ -98,7 +98,17 @@ We measured three configurations on the **same** held-out messages, including **
 | Held-out test v2 (37 msgs) | 86% · 17/22 scams · 0/15 false alarms | **97% · 22/22 · 1/15** | 95% · 22/22 · 2/15 |
 | **Real-world SMS sample (60 msgs)** | 62% · **7/30** scams · 0/30 | 92% · **29/30** · 4/30 | 93% · **29/30** · 3/30 |
 
-The rules alone are precise but miss scams they weren't written for (on all 5,971 real messages: 27% of smishing caught, 1.7% false alarms). With the assistant's own model taking a second look, nearly every scam is caught. That's why ScamShield is designed as a **toolbox for an AI assistant**, not a standalone classifier.
+The table above was measured on Sept 24, 2026. The rules alone were precise but missed scams they weren't written for (on all 5,971 real messages: 27% of smishing caught, 1.7% false alarms). With the assistant's own model taking a second look, nearly every scam was caught. That's why ScamShield is designed as a **toolbox for an AI assistant**, not a standalone classifier.
+
+**Rules update (Sept 27, 2026), measured honestly.** We split the 5,971 real messages in two with a fixed hash: a *tune* half, whose misses we studied, and a *held-out* half we never looked at (it contains the 60-message sample above). We recorded the held-out score first, added five general tactics from the tune half's misses (prize claims, premium-rate numbers, "your card is blocked", login links, inheritance windfalls, plus a caution for missed-delivery calls), then scored the held-out half once:
+
+| Real SMS, rules only | Before | After |
+|---|---|---|
+| Held-out half: smishing caught | 26.7% (93/348) | **70.1% (244/348)** |
+| Held-out half: false alarms on genuine texts | 1.7% (43/2,496) | **1.7% (43/2,496)** |
+| The 60-message sample (in the held-out half) | 7/30 caught · 0/30 false alarms | **25/30 caught · 0/30 false alarms** |
+
+Marketing "spam" (a separate label, not counted above) is now flagged 17.8% of the time instead of 2.2%, mostly premium-rate offers. The second-opinion and assistant columns were not re-run after this update. `npm run bench:real` prints both halves.
 
 We keep ourselves honest: once we learn from a test set's mistakes it becomes a development set (`dev-a/b/c`, now 100%), and new held-out sets are written or sourced separately. Reproduce with `npm run bench`, `npm run bench:real`, `npm run eval:agent -- <set>` and `node scripts/eval-sampling.mjs <set>`.
 
