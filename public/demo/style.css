@@ -5,6 +5,7 @@
   --muted: #5d6475;
   --border: #e1e5ee;
   --cyan: #00caff;
+  --accent-text: #0072ad; /* cyan text needs a darker shade on white to stay readable */
   --blue: #1f6feb;
   --scam: #d6336c;
   --scam-soft: #ffe3ec;
@@ -21,6 +22,7 @@
     --text: #e8ebf2;
     --muted: #98a0b3;
     --border: #283042;
+    --accent-text: #00caff;
     --scam: #ff6b9a;
     --scam-soft: #3a1826;
     --warn: #ffa94d;
@@ -38,7 +40,7 @@ body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 
 .topbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; padding: 14px 20px; background: var(--surface); border-bottom: 1px solid var(--border); }
 .brand { font-weight: 800; font-size: 1.25rem; }
-.brand .for { color: var(--cyan); font-weight: 700; }
+.brand .for { color: var(--accent-text); font-weight: 700; }
 .badge { font-size: .75rem; padding: 4px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--border); color: var(--muted); }
 
 .layout { max-width: 1100px; margin: 0 auto; padding: 24px 16px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 20px; }
