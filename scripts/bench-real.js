@@ -6,6 +6,7 @@
 import { existsSync } from "node:fs";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { inflateRawSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import { scanMessage } from "../lib/scan.js";
 
 const ZIP_URL = "https://data.mendeley.com/public-files/datasets/f45bkkt8pr/files/edb361de-918d-469f-9106-e84823830665/file_downloaded";
@@ -63,14 +64,29 @@ if (!existsSync(csvPath)) {
 
 const [header, ...rows] = parseCsv(await readFile(csvPath, "latin1"));
 const L = header.indexOf("LABEL"), T = header.indexOf("TEXT");
-const stats = {};
+
+// Honest split (Sept 27, 2026): rule changes may only be informed by the "tune" half. The "held-out" half,
+// which always includes the 60-message sample used for the assistant/sampling evaluations, is never inspected.
+const sample = new Set(JSON.parse(await readFile(new URL("../eval/real-world-sample.json", import.meta.url), "utf8")).map((m) => m.text.trim()));
+export const half = (text) => (sample.has(text.trim()) || createHash("sha256").update(text).digest()[0] % 2 === 1 ? "held-out" : "tune");
+
+const stats = {}, bySplit = { tune: {}, "held-out": {} };
+const tuneMisses = [], tuneFalseAlarms = [];
 for (const r of rows) {
   if (!r[T]) continue;
   const label = r[L].toLowerCase();
   const v = scanMessage(r[T]).verdict;
-  const s = (stats[label] ??= { n: 0, flagged: 0 });
-  s.n++;
-  if (v !== "likely_safe") s.flagged++;
+  for (const bucket of [stats, bySplit[half(r[T])]]) {
+    const s = (bucket[label] ??= { n: 0, flagged: 0 });
+    s.n++;
+    if (v !== "likely_safe") s.flagged++;
+  }
+  if (half(r[T]) === "tune" && label === "smishing" && v === "likely_safe") tuneMisses.push(r[T]);
+  if (half(r[T]) === "tune" && label === "ham" && v !== "likely_safe") tuneFalseAlarms.push(r[T]);
+}
+if (process.argv.includes("--tune-report")) {
+  // Only the tune half is ever printed, so rule changes can't be fitted to the held-out half.
+  await writeFile(new URL("../eval/.cache/tune-misses.json", import.meta.url), JSON.stringify({ misses: tuneMisses, falseAlarms: tuneFalseAlarms }, null, 1));
 }
 
 const pct = (s) => `${((100 * s.flagged) / s.n).toFixed(1)}%`;
@@ -82,6 +98,12 @@ const md = [
   "| Label | Messages | Flagged as scam or suspicious |",
   "|---|---|---|",
   ...Object.entries(stats).map(([k, s]) => `| ${k} | ${s.n} | ${pct(s)} |`),
+  "",
+  "By split (rule changes after Sept 27, 2026 were informed only by the tune half; the held-out half is never inspected):",
+  "",
+  "| Split | Smishing caught | Ham false alarms |",
+  "|---|---|---|",
+  ...Object.entries(bySplit).map(([k, b]) => `| ${k} | ${pct(b.smishing)} (${b.smishing.flagged}/${b.smishing.n}) | ${pct(b.ham)} (${b.ham.flagged}/${b.ham.n}) |`),
   "",
   "For smishing, higher is better (scams caught). For ham (genuine), lower is better (false alarms). \"spam\" is marketing, not necessarily fraud.",
 ].join("\n");
