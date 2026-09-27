@@ -55,3 +55,19 @@ test("links read aloud are recognized and checked", async () => {
   assert.equal(r.verdict, "scam");
   assert.ok(r.red_flags.some((f) => f.flag === "Fake or disguised link"));
 });
+
+test("real-world tactics added Sept 27, 2026: prize claims, premium numbers, blocked cards, login links", () => {
+  const scam = [
+    "Congratulations! You have been selected to receive a cash prize. Call 09061234567 now quoting claim code X12.",
+    "ATM BLOCK: Dear customer, your ATM card has been de-activated. To activate call customer care 6200000000 now.",
+    "Bank alert: unauthorised transaction on your account. Follow http://bit.do/abcd to re-activate.",
+    "Urgent: unclaimed inheritance fund. You are the assigned beneficiary. Send your name and address.",
+  ];
+  for (const t of scam) assert.notEqual(scanMessage(t).verdict, "likely_safe", t);
+  const genuine = [
+    "Your card has been blocked for your security. Call the number on the back of your card.",
+    "Your package was delivered at 2:14 PM. Thanks for shopping with us.",
+    "Hey, can you call me at 0207 946 0000 when you're free?",
+  ];
+  for (const t of genuine) assert.equal(scanMessage(t).verdict, "likely_safe", t);
+});
