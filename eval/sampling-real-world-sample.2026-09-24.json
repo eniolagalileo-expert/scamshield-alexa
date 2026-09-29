@@ -4,24 +4,24 @@
     "model": "sonnet",
     "mode": "rules + MCP sampling second opinion",
     "n": 60,
-    "accuracy": 0.967,
-    "scams_caught": "30/30",
-    "false_alarms": "2/30",
-    "sampling_calls": 47,
-    "raised_by_second_opinion": 19
+    "accuracy": 0.917,
+    "scams_caught": "29/30",
+    "false_alarms": "4/30",
+    "sampling_calls": 60,
+    "raised_by_second_opinion": 32
   },
   "results": [
     {
       "id": "rw-h00",
       "label": "legit",
-      "verdict": "suspicious",
+      "verdict": "likely_safe",
       "second_opinion": {
-        "verdict": "suspicious",
-        "reason": "This is a chain message pressuring you to forward it to ten people for a promised \"miracle\", which is a common spam tactic, though it asks for no money.",
-        "used": true
+        "verdict": "likely_safe",
+        "reason": "This is a religious chain message asking you to forward it, not a scam trying to steal money or info.",
+        "used": false
       },
-      "correct": false,
-      "seconds": 6.239
+      "correct": true,
+      "seconds": 6.548
     },
     {
       "id": "rw-h01",
@@ -29,11 +29,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's just a casual, joking comment about the Wright Brothers, with no request, link, number, offer or pressure.",
+        "reason": "This is just a random encouraging saying, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.631
+      "seconds": 6.151
     },
     {
       "id": "rw-h02",
@@ -41,11 +41,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is a casual, personal-sounding chat message with no request, link, number, offer or pressure.",
+        "reason": "This looks like a casual personal text, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.844
+      "seconds": 5.91
     },
     {
       "id": "rw-h03",
@@ -53,11 +53,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is just someone chatting about a slow, long drive and their partner, with no request, link, number, offer or pressure.",
+        "reason": "Sounds like a casual personal text about a job and traffic, no scam signs.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.653
+      "seconds": 5.873
     },
     {
       "id": "rw-h04",
@@ -65,11 +65,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is casual chat about someone making something, with no request for money, link, number, offer or pressure.",
+        "reason": "Sounds like a vague, friendly message between people who know each other, not a scam.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.822
+      "seconds": 5.973
     },
     {
       "id": "rw-h05",
@@ -77,11 +77,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This looks like an ordinary birthday invitation from a friend group, with no request for money, codes or personal details and no suspicious link.",
+        "reason": "This looks like a real birthday party invite, not a scam trying to steal money or info.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.807
+      "seconds": 6.111
     },
     {
       "id": "rw-h06",
@@ -89,7 +89,7 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's an affectionate personal message with no request for money, no link, no number to call, and no offer.",
+        "reason": "This reads like an affectionate private message between partners, not a scam.",
         "used": false
       },
       "correct": true,
@@ -101,11 +101,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's a casual personal question about missing an outing, with no request, link, number, offer or pressure.",
+        "reason": "Sounds like a casual message from someone you know, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.844
+      "seconds": 5.932
     },
     {
       "id": "rw-h08",
@@ -113,11 +113,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's an ordinary casual reply between people, asking for something to be sent and how someone is doing, with no link, money request or pressure.",
+        "reason": "Sounds like a casual chat between people who already know each other, not a scam.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.833
+      "seconds": 5.819
     },
     {
       "id": "rw-h09",
@@ -125,11 +125,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's a crude joke about a doctor's visit, with no request for money, no link, no number to call and no pressure.",
+        "reason": "This looks like a personal, casual text from someone about a doctor visit, not a scam.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.896
+      "seconds": 5.597
     },
     {
       "id": "rw-h10",
@@ -137,11 +137,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is casual chat about going out to dinner, with no request for money, no link, no number and no pressure.",
+        "reason": "This looks like an ordinary casual text between people, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.644
+      "seconds": 5.989
     },
     {
       "id": "rw-h11",
@@ -149,11 +149,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is casual chat about going to get a laptop late at night, with no request, link, number, offer or pressure.",
+        "reason": "Sounds like a casual personal text, not asking for money or personal info.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.587
+      "seconds": 5.5
     },
     {
       "id": "rw-h12",
@@ -161,11 +161,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is an ordinary personal note about getting to the hostel and asking to be woken before class, with no link, money request or offer.",
+        "reason": "Sounds like a normal personal message from a friend, no money or personal info requested.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.727
+      "seconds": 6.256
     },
     {
       "id": "rw-h13",
@@ -173,11 +173,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's a single word with no request, link, number, or offer, so it looks like ordinary personal chat.",
+        "reason": "Just a one-word message from a family member, no request for money or personal info.",
         "used": false
       },
       "correct": true,
-      "seconds": 6.061
+      "seconds": 6.202
     },
     {
       "id": "rw-h14",
@@ -185,11 +185,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's just a casual question about getting to school, with no request for money, no link, no number to call and no pressure.",
+        "reason": "Sounds like a private family text, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 6.26
+      "seconds": 5.43
     },
     {
       "id": "rw-h15",
@@ -197,11 +197,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is casual personal chat asking why someone is quiet, with no request for money, links, numbers, or personal details.",
+        "reason": "This reads like a personal message from someone you know, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.987
+      "seconds": 5.695
     },
     {
       "id": "rw-h16",
@@ -209,11 +209,11 @@
       "verdict": "suspicious",
       "second_opinion": {
         "verdict": "suspicious",
-        "reason": "This is an unexpected message telling you to pick up something from outside an office. It has no context and could be a lure, but it could also be a genuine note.",
+        "reason": "Vague message telling someone to take everything from an office while no one's around could be a scam or theft setup.",
         "used": true
       },
       "correct": false,
-      "seconds": 5.98
+      "seconds": 6.201
     },
     {
       "id": "rw-h17",
@@ -221,11 +221,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's an affectionate personal message asking if someone is awake, with no request for money, links, numbers, offers or pressure.",
+        "reason": "This sounds like a normal personal text from someone close, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.928
+      "seconds": 5.78
     },
     {
       "id": "rw-h18",
@@ -233,11 +233,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's just a casual remark in a conversation, with no request, link, number, offer or pressure.",
+        "reason": "A vague, standalone reply like this has no request for money, info, or links—not enough to call it a scam.",
         "used": false
       },
       "correct": true,
-      "seconds": 6.323
+      "seconds": 6.305
     },
     {
       "id": "rw-h19",
@@ -245,11 +245,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's just a casual, short reply with no request, link, number, offer or pressure.",
+        "reason": "This is just a short, casual reply with no request for money or personal info.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.606
+      "seconds": 5.686
     },
     {
       "id": "rw-h20",
@@ -257,11 +257,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is just a friend casually changing travel dates to have more time together, with no request, link, number, or offer.",
+        "reason": "Sounds like a casual message from a friend or family member about travel plans, nothing suspicious.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.814
+      "seconds": 5.579
     },
     {
       "id": "rw-h21",
@@ -269,11 +269,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is casual friendly chat about jogging and a concert, with no requests, links, numbers, offers or pressure.",
+        "reason": "Sounds like a casual chat between friends catching up, nothing asking for money or personal info.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.606
+      "seconds": 5.537
     },
     {
       "id": "rw-h22",
@@ -281,47 +281,47 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's just a casual Singlish chat reply about two people, with no request, link, number, offer or pressure.",
+        "reason": "Casual chat between two people, no request for money or personal information.",
         "used": false
       },
       "correct": true,
-      "seconds": 8.046
+      "seconds": 6.615
     },
     {
       "id": "rw-h23",
       "label": "legit",
-      "verdict": "likely_safe",
+      "verdict": "suspicious",
       "second_opinion": {
-        "verdict": "likely_safe",
-        "reason": "It's a vague, casual personal remark with no request for money, no link, no number to contact and no pressure.",
-        "used": false
+        "verdict": "suspicious",
+        "reason": "Sounds like recruiting people for a pyramid or multi-level marketing pitch to get \"yeses.\"",
+        "used": true
       },
-      "correct": true,
-      "seconds": 5.845
+      "correct": false,
+      "seconds": 5.625
     },
     {
       "id": "rw-h24",
       "label": "legit",
-      "verdict": "likely_safe",
+      "verdict": "suspicious",
       "second_opinion": {
-        "verdict": "likely_safe",
-        "reason": "Someone is just asking who is texting them, with no link, request for money, or offer involved.",
-        "used": false
+        "verdict": "suspicious",
+        "reason": "This wording is a common scam opener testing if the number replies before impersonating someone or asking for money.",
+        "used": true
       },
-      "correct": true,
-      "seconds": 5.648
+      "correct": false,
+      "seconds": 5.827
     },
     {
       "id": "rw-h25",
       "label": "legit",
-      "verdict": "likely_safe",
+      "verdict": "suspicious",
       "second_opinion": {
-        "verdict": "likely_safe",
-        "reason": "It's casual chit-chat between friends with no request, link, number, offer or pressure.",
-        "used": false
+        "verdict": "suspicious",
+        "reason": "Vague \"guess what happened\" texts from unknown numbers often lead to scams asking for money or info.",
+        "used": true
       },
-      "correct": true,
-      "seconds": 5.677
+      "correct": false,
+      "seconds": 5.848
     },
     {
       "id": "rw-h26",
@@ -329,11 +329,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's a casual, friendly question about a personal project, with no request, link, number, offer or pressure.",
+        "reason": "Sounds like a casual message from someone who knows you, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 6.27
+      "seconds": 5.558
     },
     {
       "id": "rw-h27",
@@ -341,11 +341,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "It's a short, affectionate personal message with no request, link, number, offer or pressure.",
+        "reason": "This looks like a casual, worried message to a partner, not a scam attempt.",
         "used": false
       },
       "correct": true,
-      "seconds": 6.274
+      "seconds": 5.582
     },
     {
       "id": "rw-h28",
@@ -353,11 +353,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is casual chat about waiting for someone because a lecture isn't over, with no request, link, number, offer or pressure.",
+        "reason": "This looks like a normal casual text between friends about waiting after class, nothing scammy.",
         "used": false
       },
       "correct": true,
-      "seconds": 5.853
+      "seconds": 5.575
     },
     {
       "id": "rw-h29",
@@ -365,11 +365,11 @@
       "verdict": "likely_safe",
       "second_opinion": {
         "verdict": "likely_safe",
-        "reason": "This is just casual chat about something on a TV channel, with no request, link, number, offer or pressure.",
+        "reason": "Casual chat about a TV actor named Sura, no request for money or personal info.",
         "used": false
       },
       "correct": true,
-      "seconds": 6.037
+      "seconds": 5.773
     },
     {
       "id": "rw-s00",
@@ -377,11 +377,11 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "Banks don't block cards over a \"system upgrade\" and ask you to call a number; this is a common trick to steal your card details.",
+        "reason": "Real banks never deactivate your card and ask you to call a random number — it's a classic phishing trick.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.88
+      "seconds": 6.325
     },
     {
       "id": "rw-s01",
@@ -389,43 +389,47 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "This is a classic fake \"message waiting\" notice that pushes you to call a premium-rate number, which charges you a lot per minute.",
+        "reason": "This is a classic \"you have a message\" trick that connects to an expensive premium-rate phone number.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.348
+      "seconds": 6.188
     },
     {
       "id": "rw-s02",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake camera prize needing a costly phone call is a classic prize scam trick.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.007
+      "seconds": 5.564
     },
     {
       "id": "rw-s03",
       "label": "scam",
-      "verdict": "scam",
+      "verdict": "suspicious",
       "second_opinion": {
-        "verdict": "scam",
-        "reason": "It pushes a loan offer for people with bad credit and tells you to call a premium-rate number, a common trick to charge you.",
+        "verdict": "suspicious",
+        "reason": "Bad-credit loan ads often hide huge fees or scams; be careful before calling that number.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.057
+      "seconds": 6.208
     },
     {
       "id": "rw-s04",
       "label": "scam",
-      "verdict": "scam",
+      "verdict": "suspicious",
       "second_opinion": {
-        "verdict": "scam",
-        "reason": "It pushes a phone number to call for a too-good-to-be-true handset and half-price deal, a common junk-offer trick with no way to verify the sender.",
+        "verdict": "suspicious",
+        "reason": "Unsolicited free phone offer with a call-back number is a common trick to charge you or steal info.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.348
+      "seconds": 6.327
     },
     {
       "id": "rw-s05",
@@ -433,35 +437,47 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "You never entered a contest, yet it says you won and tells you to call a number, which is a classic fake prize trick.",
+        "reason": "Random prize wins requiring a callback are a classic scam trick to steal money or info.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.489
+      "seconds": 5.63
     },
     {
       "id": "rw-s06",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Unexpected prize wins requiring a phone call are classic scams to trick you into paying or sharing info.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.003
+      "seconds": 5.993
     },
     {
       "id": "rw-s07",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake prize with a phone number to call is a classic advance-fee lottery scam trick.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.015
+      "seconds": 5.471
     },
     {
       "id": "rw-s08",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Classic UK prize scam using a premium-rate 150ppm number to charge you for a fake £5000 reward.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.01
+      "seconds": 5.717
     },
     {
       "id": "rw-s09",
@@ -469,11 +485,11 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It claims you won a prize and tells you to call a number right away, which is a classic fake-prize trick.",
+        "reason": "Fake lottery prize demanding a call — real companies don't notify winners this way.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.142
+      "seconds": 6.454
     },
     {
       "id": "rw-s10",
@@ -481,19 +497,23 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It says you won money and tells you to call an expensive premium-rate number, which is a classic fake prize trick.",
+        "reason": "Fake prize text asking you to call a paid premium number is a classic money-stealing trick.",
         "used": true
       },
       "correct": true,
-      "seconds": 8.131
+      "seconds": 5.616
     },
     {
       "id": "rw-s11",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake prize needing you to call a paid premium number is a classic lottery scam.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.001
+      "seconds": 5.407
     },
     {
       "id": "rw-s12",
@@ -501,11 +521,11 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It's a fake \"secret admirer\" lure that pushes you to call a premium-rate number, which charges you a lot of money per call.",
+        "reason": "This is a premium-rate text scam pretending to be a secret admirer to trick you into calling an expensive number.",
         "used": true
       },
       "correct": true,
-      "seconds": 5.688
+      "seconds": 5.626
     },
     {
       "id": "rw-s13",
@@ -513,11 +533,11 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It pretends to be Westpac, threatens to cut off your services, and pushes a fake-looking link and phone number to collect your personal details.",
+        "reason": "Fake Westpac alert with a lookalike \".cc\" link is phishing, not a real bank message.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.333
+      "seconds": 6.319
     },
     {
       "id": "rw-s14",
@@ -525,27 +545,35 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It says you won free phones and tells you to call a premium-rate number, which is a common prize trick to charge you money.",
+        "reason": "Fake free prize asking you to call a premium number—classic scam to charge you hidden fees.",
         "used": true
       },
       "correct": true,
-      "seconds": 5.775
+      "seconds": 5.578
     },
     {
       "id": "rw-s15",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Classic prize scam demanding a costly premium-rate call to claim a fake \"free\" holiday or cash.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.001
+      "seconds": 5.683
     },
     {
       "id": "rw-s16",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Classic fake prize text pushing you to call a premium number — a known scam trick, not real.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.002
+      "seconds": 5.659
     },
     {
       "id": "rw-s17",
@@ -553,39 +581,47 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It says you won a prize and pushes you to call a premium-rate number right away to claim it, which is a classic trick to charge you money.",
+        "reason": "Fake prize text luring you to call a paid number is a classic scam trick.",
         "used": true
       },
       "correct": true,
-      "seconds": 5.813
+      "seconds": 5.56
     },
     {
       "id": "rw-s18",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Premium-rate prize call scams charge you per minute and never give real prizes.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.002
+      "seconds": 5.554
     },
     {
       "id": "rw-s19",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Classic fake prize text luring you to call a paid number — real prizes don't demand urgent phone calls.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.001
+      "seconds": 5.917
     },
     {
       "id": "rw-s20",
       "label": "scam",
-      "verdict": "suspicious",
+      "verdict": "likely_safe",
       "second_opinion": {
-        "verdict": "suspicious",
-        "reason": "This is an unexpected promotional offer with phone numbers, and the sender can't be verified, so check it with HP directly before calling.",
-        "used": true
+        "verdict": "likely_safe",
+        "reason": "This looks like a normal store ad offering a free camera with a laptop purchase.",
+        "used": false
       },
-      "correct": true,
-      "seconds": 6.291
+      "correct": false,
+      "seconds": 5.762
     },
     {
       "id": "rw-s21",
@@ -593,11 +629,11 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It claims you won cash and tells you to call a premium-rate number to collect it, which is a classic fake-prize trick.",
+        "reason": "Classic UK prize-claim text scam using a premium-rate phone number to charge you money.",
         "used": true
       },
       "correct": true,
-      "seconds": 5.832
+      "seconds": 5.436
     },
     {
       "id": "rw-s22",
@@ -605,35 +641,47 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It's a classic free-phone prize offer pushing you to reply or call a premium-looking number, which is how these text scams work.",
+        "reason": "Unwanted free-phone text with a call-now number is a classic prize scam trick, likely charges hidden fees.",
         "used": true
       },
       "correct": true,
-      "seconds": 5.85
+      "seconds": 5.682
     },
     {
       "id": "rw-s23",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake prize text asking you to call a number is a classic trick to steal money or info.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.001
+      "seconds": 5.872
     },
     {
       "id": "rw-s24",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Real banks don't lock cards via random links; this fake NAB link steals your login details.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.001
+      "seconds": 5.783
     },
     {
       "id": "rw-s25",
       "label": "scam",
-      "verdict": "scam",
-      "second_opinion": null,
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "Urgent calls to unknown numbers are a common trick to charge you or steal info.",
+        "used": false
+      },
       "correct": true,
-      "seconds": 0
+      "seconds": 5.673
     },
     {
       "id": "rw-s26",
@@ -641,23 +689,23 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "It pushes you to call a premium-rate number to learn who supposedly wants to contact you, a classic trick to run up your phone bill.",
+        "reason": "This is a premium-rate phone number trick disguised as a \"someone likes you\" dating message.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.034
+      "seconds": 5.568
     },
     {
       "id": "rw-s27",
       "label": "scam",
-      "verdict": "scam",
+      "verdict": "suspicious",
       "second_opinion": {
-        "verdict": "scam",
-        "reason": "It pushes you to phone an unknown number right away with a vague \"customer service\" claim and no company name, which is a common scam tactic.",
+        "verdict": "suspicious",
+        "reason": "Urgent \"call now\" bank-style alerts from unknown numbers are a common scam trick to steal your info.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.095
+      "seconds": 5.794
     },
     {
       "id": "rw-s28",
@@ -665,19 +713,23 @@
       "verdict": "scam",
       "second_opinion": {
         "verdict": "scam",
-        "reason": "Paytm doesn't threaten to hold your money over KYC. This message pushes you to call a number and pretends to be Paytm.",
+        "reason": "Fake Paytm KYC message asking you to call a number—scammers use this trick to steal your account details.",
         "used": true
       },
       "correct": true,
-      "seconds": 6.347
+      "seconds": 5.625
     },
     {
       "id": "rw-s29",
       "label": "scam",
       "verdict": "scam",
-      "second_opinion": null,
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "Fake prize scam — real winnings never require calling a paid number to claim them.",
+        "used": true
+      },
       "correct": true,
-      "seconds": 0.001
+      "seconds": 5.451
     }
   ]
 }
