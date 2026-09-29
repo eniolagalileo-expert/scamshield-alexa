@@ -108,7 +108,9 @@ The table above was measured on Sept 24, 2026. The rules alone were precise but 
 | Held-out half: false alarms on genuine texts | 1.7% (43/2,496) | **1.7% (43/2,496)** |
 | The 60-message sample (in the held-out half) | 7/30 caught · 0/30 false alarms | **25/30 caught · 0/30 false alarms** |
 
-Marketing "spam" (a separate label, not counted above) is now flagged 17.8% of the time instead of 2.2%, mostly premium-rate offers. The second-opinion and assistant columns were not re-run after this update. `npm run bench:real` prints both halves.
+Marketing "spam" (a separate label, not counted above) is now flagged 17.8% of the time instead of 2.2%, mostly premium-rate offers. `npm run bench:real` prints both halves.
+
+**Second opinion, re-run Sept 29, 2026.** With the new rules, the model behind the same setting had become more cautious (12/30 false alarms on short personal texts), so we rewrote the second-opinion prompt with explicit levels, calibrated it only on the tune half, and scored the held-out sets once. On both held-out sets together: **52/52 scams caught, 8/45 false alarms** (old prompt, same model: 51/52 and 15/45). Real-world sample: **30/30 · 2/30**; test v2: 22/22 · 6/15, three more "be careful" answers on genuine notices than the old prompt. Details: [SYSTEM_RESULTS.md](eval/SYSTEM_RESULTS.md).
 
 We keep ourselves honest: once we learn from a test set's mistakes it becomes a development set (`dev-a/b/c`, now 100%), and new held-out sets are written or sourced separately. Reproduce with `npm run bench`, `npm run bench:real`, `npm run eval:agent -- <set>` and `node scripts/eval-sampling.mjs <set>`.
 
