@@ -1,0 +1,855 @@
+{
+  "summary": {
+    "set": "calibration-tune",
+    "model": "sonnet",
+    "mode": "rules + MCP sampling second opinion",
+    "n": 70,
+    "accuracy": 0.929,
+    "scams_caught": "30/30",
+    "false_alarms": "5/40",
+    "sampling_calls": 70,
+    "raised_by_second_opinion": 34
+  },
+  "results": [
+    {
+      "id": "cal-h0",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just casual chat with no request, link, number, offer or pressure, so nothing here looks like a scam.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.729
+    },
+    {
+      "id": "cal-h1",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just someone telling a person to phone someone, with no link, money request, prize or pressure to share details.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.811
+    },
+    {
+      "id": "cal-h10",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It reads like a plain phone plan description with no link, number, request, or pressure to act.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.933
+    },
+    {
+      "id": "cal-h11",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just someone venting to a friend about an uncomfortable person, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.624
+    },
+    {
+      "id": "cal-h12",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just casual chat about a hairdresser, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.652
+    },
+    {
+      "id": "cal-h13",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a short, ordinary reply thanking someone, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.171
+    },
+    {
+      "id": "cal-h14",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just a casual, playful complaint about waking up early, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.095
+    },
+    {
+      "id": "cal-h15",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's ordinary personal chat about a disagreement with someone named Alex, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.967
+    },
+    {
+      "id": "cal-h16",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a casual personal question about going out with a partner, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.93
+    },
+    {
+      "id": "cal-h17",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just someone comparing shipping options and delivery times, with no request for money, no link, and no number to contact.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.743
+    },
+    {
+      "id": "cal-h18",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like casual chat between people who know each other, with no request for money, no link, no number and no pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.532
+    },
+    {
+      "id": "cal-h19",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just a short, casual chat reply about a movie, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.635
+    },
+    {
+      "id": "cal-h2",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a casual, friendly note with no request, link, number, offer or pressure, so nothing about it looks like a scam.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.66
+    },
+    {
+      "id": "cal-h20",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just casual chat from someone bored, talking about a colour choice, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.76
+    },
+    {
+      "id": "cal-h21",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is an affectionate note from a partner apologizing and asking to talk tomorrow. It has no link, money request, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.735
+    },
+    {
+      "id": "cal-h22",
+      "label": "legit",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "A stranger says they're running a text survey, which is a common way scammers start a chat before asking for personal details or money.",
+        "used": true
+      },
+      "correct": false,
+      "seconds": 6.134
+    },
+    {
+      "id": "cal-h23",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just a casual chat about starting training today, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.782
+    },
+    {
+      "id": "cal-h24",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just someone asking a casual question about Minecraft and their IP address, with no request, link, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.966
+    },
+    {
+      "id": "cal-h25",
+      "label": "legit",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "A stranger is repeatedly pushing you to give your home street name, which is personal information you shouldn't share with someone you can't verify.",
+        "used": true
+      },
+      "correct": false,
+      "seconds": 6.543
+    },
+    {
+      "id": "cal-h26",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This looks like a private conversation about living arrangements between people who know each other, with no request for money, links, or personal details.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.314
+    },
+    {
+      "id": "cal-h27",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just casual slang agreeing with someone, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.934
+    },
+    {
+      "id": "cal-h28",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just casual chat about bathing a dog with a sister and the weather, with no request, link, number or offer.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.708
+    },
+    {
+      "id": "cal-h29",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just casual chat telling someone not to reply to another person, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.778
+    },
+    {
+      "id": "cal-h3",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is ordinary chat about someone changing a food order on their way, with no request, link, number or offer.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.966
+    },
+    {
+      "id": "cal-h30",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is ordinary friendly chat about a birthday, work shifts and starting university, with no request for money, links, numbers or personal details.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.849
+    },
+    {
+      "id": "cal-h31",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a short, casual chat reply asking if there's anything else, with no link, number, money request or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.532
+    },
+    {
+      "id": "cal-h32",
+      "label": "legit",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "Overly intimate message from a possible stranger, a common romance-scam opener, though it has no request, link or money ask yet.",
+        "used": true
+      },
+      "correct": false,
+      "seconds": 5.716
+    },
+    {
+      "id": "cal-h33",
+      "label": "legit",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "A stranger-style \"babe, I lost you\" message is a common opener for romance scams, though it has no request, link or offer yet.",
+        "used": true
+      },
+      "correct": false,
+      "seconds": 6.049
+    },
+    {
+      "id": "cal-h34",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is casual chat between people who know each other, asking to visit, with no link, money request, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.882
+    },
+    {
+      "id": "cal-h35",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a friendly, joking chat between people who know each other, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.728
+    },
+    {
+      "id": "cal-h36",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a short, ordinary personal reply saying someone has arrived, with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.679
+    },
+    {
+      "id": "cal-h37",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a casual, friendly remark with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.871
+    },
+    {
+      "id": "cal-h38",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just someone casually asking why a contact was deleted, with no request for money, links, numbers or personal details.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.911
+    },
+    {
+      "id": "cal-h39",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just a quote-style motivational chat message with no request, link, number, offer or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.597
+    },
+    {
+      "id": "cal-h4",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's just a casual personal note about keeping a little money for eggs, with no request, link, number, or offer.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.671
+    },
+    {
+      "id": "cal-h5",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is a friendly personal message asking for feedback on themselves. It has no links, money requests, offers, or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.706
+    },
+    {
+      "id": "cal-h6",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is ordinary casual chat about plans, with no request for money, links, numbers, offers or pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.529
+    },
+    {
+      "id": "cal-h7",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is an ordinary message about arrival time for a plan, with no request for money, links, numbers, or personal details.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 5.823
+    },
+    {
+      "id": "cal-h8",
+      "label": "legit",
+      "verdict": "likely_safe",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "It's a casual question about someone's story, with no request for money, no link, no number and no pressure.",
+        "used": false
+      },
+      "correct": true,
+      "seconds": 6.155
+    },
+    {
+      "id": "cal-h9",
+      "label": "legit",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "likely_safe",
+        "reason": "This is just a friendly good-morning poem with no request for money, no link, no number to contact and no offer.",
+        "used": false
+      },
+      "correct": false,
+      "seconds": 5.709
+    },
+    {
+      "id": "cal-s0",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a fake \"free phone\" offer from someone pretending to be Orange, pushing you to call a premium-looking number before a deadline.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.395
+    },
+    {
+      "id": "cal-s1",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "This looks like a fake prize draw text that pushes you to text a short code and call a number, a classic trick to get money from you.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 15.626
+    },
+    {
+      "id": "cal-s10",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to call a number to claim a \"free\" phone from someone posing as your mobile company, a common trick to get your details or money.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.782
+    },
+    {
+      "id": "cal-s11",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a classic \"free phone upgrade\" trick that pushes you to call a number, pretending to be a mobile company you can't verify.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.157
+    },
+    {
+      "id": "cal-s12",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It offers a free phone, minutes and camcorder as bait, and pushes you to reply or call a number, a classic prize-style lure.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.748
+    },
+    {
+      "id": "cal-s13",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It offers a loan to people who were refused elsewhere and pushes you to call or text a number, a classic loan scam.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.749
+    },
+    {
+      "id": "cal-s14",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's an unsolicited loan offer aimed at people who were refused before, pushing you to call or text a number, which is a classic loan scam.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.931
+    },
+    {
+      "id": "cal-s15",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "It pushes an unexpected link to a strange website claiming a picture was sent, which is a common way to trick people into clicking.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.113
+    },
+    {
+      "id": "cal-s16",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes a phone number and text reply to lure people who can't get credit with loan offers, a common loan scam.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.113
+    },
+    {
+      "id": "cal-s17",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It offers a free phone and prizes, and pushes you to reply or call a number, which is a classic fake-offer trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.866
+    },
+    {
+      "id": "cal-s18",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "This is an unexpected notice about an order you may not have made, and it pushes you to email an unknown address.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.832
+    },
+    {
+      "id": "cal-s19",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a spam ad for an adult chat line, pushing you to call a premium-rate number and text a short code to get explicit pictures.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.84
+    },
+    {
+      "id": "cal-s2",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a classic prize-style text pushing you to call a number for a free camcorder and phone deal, which is a well-known trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.042
+    },
+    {
+      "id": "cal-s20",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to call a phone number right away, claims to be \"customer service\" without naming any company, and the vague urgent wording is typical of scam calls.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.244
+    },
+    {
+      "id": "cal-s21",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to call a number to buy a phone with weekly payments, a common premium-rate junk offer from an unknown sender.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.788
+    },
+    {
+      "id": "cal-s22",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "It's a card-charge alert with a phone number to call and a code, and the date is very old, so it could be a fake bank alert.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.899
+    },
+    {
+      "id": "cal-s23",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It claims a billing mistake and pushes you to call an unknown number for a refund, which is a common premium-rate phone trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.101
+    },
+    {
+      "id": "cal-s24",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a fake \"free phone upgrade\" offer that pushes you to call a number, a common trick to get your details or money.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.77
+    },
+    {
+      "id": "cal-s25",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It promises a free holiday if you send your name and address, and it pushes a website and a premium-rate phone number, which is a common prize trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.282
+    },
+    {
+      "id": "cal-s26",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "A stranger says they missed your call and gives a phone number to reach them, which could be a callback scam, so don't call without checking.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.317
+    },
+    {
+      "id": "cal-s27",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to call a number right away about a \"free\" phone and unlimited texts offer you never asked for, which is a classic prize-style trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.838
+    },
+    {
+      "id": "cal-s28",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a fake order alert that scares you into clicking a link to a raw numeric web address, which is a common trick to steal your login details.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.821
+    },
+    {
+      "id": "cal-s29",
+      "label": "scam",
+      "verdict": "suspicious",
+      "second_opinion": {
+        "verdict": "suspicious",
+        "reason": "It claims you paid for content you never received and pushes an odd, broken-looking link, which is a common trick to steal information or money.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.401
+    },
+    {
+      "id": "cal-s3",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to text a premium-rate number for a \"sexy pic\" and a phone number, a classic trick to run up charges.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.115
+    },
+    {
+      "id": "cal-s4",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a classic prize-style text pushing you to call a number now for a free camcorder and cheap phone deal, which is a common trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.671
+    },
+    {
+      "id": "cal-s5",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to click an unfamiliar link to claim a \"voucher offer\" from a sender you don't know, a common prize-style trick.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.439
+    },
+    {
+      "id": "cal-s6",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes you to call a premium-rate adult number that charges by the minute, which is a common way to make money from unwanted texts.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.904
+    },
+    {
+      "id": "cal-s7",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pretends to be your bank, threatens suspension, and pushes a login link to a fake website (natwestauth.xyz), not NatWest's real site.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.079
+    },
+    {
+      "id": "cal-s8",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It pushes a phone number to call and a \"half price\" offer you never asked for, which is a typical premium-rate promotion scam.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 5.714
+    },
+    {
+      "id": "cal-s9",
+      "label": "scam",
+      "verdict": "scam",
+      "second_opinion": {
+        "verdict": "scam",
+        "reason": "It's a classic \"free phone\" offer pushing you to call a number, a common trick to get your details or run up call charges.",
+        "used": true
+      },
+      "correct": true,
+      "seconds": 6.018
+    }
+  ]
+}
