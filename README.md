@@ -10,12 +10,12 @@ ScamShield is a free, private scam checker you can use four ways, all powered by
 |---|---|---|
 | 🌐 **Website** | **https://scamshield-alexa.onrender.com** | Paste a message → verdict, reasons, what the real company says, what to do, where to report, a warning to send your family. **Check a screenshot or QR code** (read on your device, never uploaded; QR links are checked without opening them). "Someone is calling me now" helper. **"Already paid or clicked?"** step-by-step recovery. Live scam alerts from the FTC/FBI/SSA. |
 | 📱 **Phone app** | Same address → "Add to Home Screen" | Installs as an app; on Android, **share a suspicious text or screenshot straight to ScamShield** from your messages app. |
-| 🔊 **Alexa** | "Alexa, open Scam Shield" / "abre escudo antiestafas" | The same checks by voice, in English and Spanish, with a verdict card on Echo Show. |
+| 🔊 **Alexa** | **[Live in the Alexa Skills Store](https://www.amazon.com/dp/B0HM7D25V9/)**: "Alexa, open Scam Shield" / "abre escudo antiestafas" | The same checks by voice, in English and Spanish, with a verdict card on Echo Show. |
 | 🤖 **AI assistants** | MCP endpoint `https://scamshield-alexa.onrender.com/mcp` | Alexa+, Claude or any MCP client gets 11 read-only tools, plus an **Agent Skill**. A **simulated Alexa+** demo is at [`/demo/`](https://scamshield-alexa.onrender.com/demo/). |
 
 The website is itself an MCP client: every check it does goes through the same MCP tools that assistants use. Built for older eyes and slow phones: large text, high contrast, and **Lighthouse 100 in performance, accessibility, best practices and SEO** on every page (mobile, Sept 27, 2026). [Privacy](https://scamshield-alexa.onrender.com/privacy.html) · [Terms](https://scamshield-alexa.onrender.com/terms.html)
 
-Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track. The Alexa skill is tested end to end in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on Render, kept awake by a [GitHub Actions ping](.github/workflows/keepalive.yml) every 10 minutes so Alexa never hits a cold start.
+Built for the **Build, Ship, Shape: Amazon Developer Hackathon**, Alexa+ track. The Alexa skill passed Amazon certification and is **live in the [Alexa Skills Store](https://www.amazon.com/dp/B0HM7D25V9/)** (Oct 7, 2026); it was also tested end to end in the Alexa simulator ([transcript](docs/alexa-simulator-transcript.md)). Hosted on Render, kept awake by a [GitHub Actions ping](.github/workflows/keepalive.yml) every 10 minutes so Alexa never hits a cold start.
 
 ## Why voice?
 Scams hit the people least likely to open a laptop and research a link: older adults, busy parents, non-native speakers. Asking the assistant already in the kitchen is the most natural way to get a second opinion before you tap, pay or call back.
@@ -53,7 +53,7 @@ Also provided:
 - **Server instructions**: tell the assistant the recommended flow and safety rules (never suggest clicking the link).
 
 ## A real Alexa skill, too
-Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom skill** endpoint (`POST /alexa`) with the interaction model in [`skill-package/`](skill-package/interactionModels/custom/en-US.json). Say *"Alexa, open Scam Shield"*, then:
+Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom skill** ([certified and live in the Skills Store](https://www.amazon.com/dp/B0HM7D25V9/)), served from `POST /alexa`, with the interaction model in [`skill-package/`](skill-package/interactionModels/custom/en-US.json). Say *"Alexa, open Scam Shield"*, then:
 - *"Is this a scam? It says: your package is on hold…"*, then *"yes"* for how to report it, then *"yes"* for a warning to send your family
 - *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
 - *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
