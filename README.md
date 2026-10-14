@@ -57,7 +57,7 @@ Besides the MCP server for Alexa+, ScamShield ships a classic **Alexa custom ski
 - *"Is this a scam? It says: your package is on hold…"*, then *"yes"* for how to report it, then *"yes"* for a warning to send your family
 - *"Someone's on the phone saying he's from my bank"*, then answer yes/no until Alexa says *"Hang up now"*
 - *"What scams are going around?"* or *"Let's practice"*, then *"scam"* / *"real"*
-- *"I think I got scammed"* → *"I paid with a gift card"*: the first steps out loud, the full plan in the Alexa phone app (*"creo que me estafaron"* in Spanish). The handler is live; the updated interaction model goes out with the next skill update, since the model can't change while the skill is in certification.
+- *"I think I got scammed"* → *"I paid with a gift card"*: the first steps out loud, the full plan in the Alexa phone app (*"creo que me estafaron"* in Spanish).
 
 Built for how people actually talk to Alexa:
 - **Links read aloud work.** *"usps dot com dash track dash redelivery dot top slash pkg"* is rebuilt into `usps.com-track-redelivery.top/pkg` and caught as a disguised link (Spanish too: *"punto com guion … barra"*).
@@ -66,11 +66,11 @@ Built for how people actually talk to Alexa:
 - **A card on Echo Show.** Devices with a screen get an [APL](https://developer.amazon.com/en-US/docs/alexa/alexa-presentation-language/understand-apl.html) card: **SCAM** / **BE CAREFUL** / **LOOKS OK** in big letters, the evidence quoted from the message, and one thing to remember. Practice-quiz messages are shown on screen so you can read along.
 - **En español.** An `es-US` model ([`es-US.json`](skill-package/interactionModels/custom/es-US.json)): *"Alexa, abre escudo antiestafas"*, then *"es esto una estafa…"* or *"alguien me está llamando del banco"*. Message checks, the phone-call interview, reporting and the family warning are fully in Spanish (the briefing and quiz are English-only for now, and it says so).
 
-**Remembers across sessions, only with permission** (built and tested; switched on after the current certification, see below). Judges of this track asked for skills that *"keep context across sessions"*, and so do the people ScamShield serves:
+**Remembers across sessions, only with permission** (in Amazon certification as a skill update, Oct 2026). Judges of this track asked for skills that *"keep context across sessions"*, and so do the people ScamShield serves:
 - *"Warn my daughter Maria"* → *"Want me to remember Maria as the person to warn next time?"* Next time, *"warn my family"* just works.
 - *"My bank is Chase"* → when someone calls claiming to be your bank, the verdict ends with *"Call Chase yourself, using the number on the back of your card."*
 - After *"I think I got scammed"*: *"Want me to check in about this next time?"* Next launch: *"Welcome back. Last time, we talked about this: paid with a gift card. Did you reach the company that issued the gift card?"* "No" repeats the first step, "yes" closes the case.
-- *"Forget me"* deletes everything. Nothing is saved without a yes (or an explicit "my bank is…"), entries expire after 90 days, and the store is keyed by a salted hash of Alexa's user ID, so it never holds Amazon's identifier ([`lib/memory.js`](lib/memory.js), Upstash Redis over REST, no extra dependency). If the store is slow or down, the skill answers normally, as if it remembers nothing. It is off unless `ALEXA_MEMORY=on`: the skill was submitted for certification as storing nothing, so it goes live together with its updated privacy policy and interaction model.
+- *"Forget me"* deletes everything. Nothing is saved without a yes (or an explicit "my bank is…"), entries expire after 90 days, and the store is keyed by a salted hash of Alexa's user ID, so it never holds Amazon's identifier ([`lib/memory.js`](lib/memory.js), Upstash Redis over REST, no extra dependency). If the store is slow or down, the skill answers normally, as if it remembers nothing. It can be turned off with `ALEXA_MEMORY` (anything other than `on`).
 
 It has been run end to end in the **Alexa developer console simulator** against the live Render deployment: see the [transcript and screenshot](docs/alexa-simulator-transcript.md).
 
@@ -186,7 +186,7 @@ test/                  node:test suites (official MCP client end-to-end)
 ```
 
 ## Safety and privacy
-ScamShield never opens, fetches or clicks suspicious links; it analyzes them as text. It stores nothing about the person unless they opt in to the Alexa memory described above (off until the skill's next certified version), never logs message text, and only sends company names or short queries to web search. Full details: [PRIVACY.md](PRIVACY.md). ScamShield gives guidance, not legal or financial advice.
+ScamShield never opens, fetches or clicks suspicious links; it analyzes them as text. It stores nothing about the person unless they opt in to the Alexa memory described above, never logs message text, and only sends company names or short queries to web search. Full details: [PRIVACY.md](PRIVACY.md). ScamShield gives guidance, not legal or financial advice.
 
 ## License
 MIT
