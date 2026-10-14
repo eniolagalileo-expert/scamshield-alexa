@@ -16,11 +16,20 @@
   </header>
   <main class="doc">
     <h1>Privacy</h1>
-    <p class="muted">Last updated: September 25, 2026. This policy covers the ScamShield website, the Scam Shield Alexa skill ("Escudo Antiestafas" in Spanish), and the ScamShield MCP server.</p>
+    <p class="muted">Last updated: October 13, 2026. This policy covers the ScamShield website, the Scam Shield Alexa skill ("Escudo Antiestafas" in Spanish), and the ScamShield MCP server.</p>
     <p>ScamShield is built for people who may be worried, rushed, or older. It is designed to learn as little about you as possible.</p>
 
     <h2>What we store</h2>
-    <p><strong>Nothing about you.</strong> There are no accounts, no database, no message history, no cookies, and no analytics or advertising trackers. Each check is handled in memory and forgotten as soon as the answer is sent.</p>
+    <p><strong>Nothing about you, unless you ask the Alexa skill to remember something</strong> (see below). There are no accounts, no message history, no cookies, and no analytics or advertising trackers. Each check is handled in memory and forgotten as soon as the answer is sent.</p>
+
+    <h2>What the Alexa skill can remember, only if you say yes</h2>
+    <p>The Alexa skill can remember three things across conversations, each only after you agree or ask:</p>
+    <ul>
+      <li>the <strong>first name of the person to warn</strong> (after "warn Maria", it asks "Want me to remember Maria?");</li>
+      <li>the <strong>name of your bank</strong>, when you say "my bank is …", so it can remind you to call your bank yourself if someone calls claiming to be from it;</li>
+      <li>an <strong>open "I got scammed" case</strong>, if you ask it to check in next time: the type of situation (for example, "paid with a gift card") and the date. Never the message itself, amounts, or account numbers.</li>
+    </ul>
+    <p>This is stored with our database provider, Upstash, under a scrambled key made from a one-way hash of the anonymous ID Amazon gives our skill; we never store Amazon's ID itself, your name, email, address, or voice. Each record is <strong>deleted automatically after 90 days</strong>, and you can delete it at any time by saying <strong>"Alexa, tell Scam Shield to forget me"</strong> ("olvida mis datos" in Spanish). Disabling the skill also stops it being used.</p>
 
     <h2>What we log</h2>
     <p>Only operational errors, recorded as an error type and code location. The text of your message is never written to our logs.</p>
@@ -29,7 +38,7 @@
     <ul>
       <li><strong>Official-website checks.</strong> When a message claims to be from a known company (like USPS or Amazon), we send a short search made of the company name and the scam's topic (for example, "USPS scam alert redelivery fee") to our search provider, Tavily, and read only that company's official website. We also look up recent official scam alerts (FTC, FBI, Social Security) this way. Your full message is never sent.</li>
       <li><strong>AI assistants.</strong> If you use ScamShield through an AI assistant that supports "sampling", the message and our findings are sent back to that same assistant's AI model, which you are already using, for a second opinion. ScamShield has no AI model or API key of its own.</li>
-      <li><strong>Alexa.</strong> Amazon processes your voice under <a href="https://www.amazon.com/privacy">Amazon's privacy notice</a>. Our skill accepts only requests signed by Amazon. It keeps the current conversation (for example, the last message you checked, so "warn my family" can refer to it) only until the conversation ends. It does not receive or store your name, email, address, or contacts.</li>
+      <li><strong>Alexa.</strong> Amazon processes your voice under <a href="https://www.amazon.com/privacy">Amazon's privacy notice</a>. Our skill accepts only requests signed by Amazon. It keeps the current conversation (for example, the last message you checked, so "warn my family" can refer to it) only until the conversation ends, apart from what you ask it to remember (above). It does not receive your name, email, address, or contacts.</li>
     </ul>
 
     <h2>Links are never opened</h2>
